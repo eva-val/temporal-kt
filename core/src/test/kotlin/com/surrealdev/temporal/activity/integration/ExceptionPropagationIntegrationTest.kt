@@ -253,7 +253,8 @@ class ExceptionPropagationIntegrationTest {
                     append(
                         "|hasCutoffFrame=${trace.contains(
                             "ActivityDispatcher.invokeMethod",
-                        ) || trace.contains("ActivityDispatcher\$invokeMethod")}",
+                        ) ||
+                            trace.contains("ActivityDispatcher\$invokeMethod")}",
                     )
                     // Everything below the cutoff must be absent
                     append("|hasDispatchStartTask=${trace.contains("dispatchStartTask")}")
