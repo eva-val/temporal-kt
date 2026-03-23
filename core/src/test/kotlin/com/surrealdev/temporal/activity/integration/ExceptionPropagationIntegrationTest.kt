@@ -250,7 +250,11 @@ class ExceptionPropagationIntegrationTest {
                     // kotlinx.coroutines and kotlin.reflect frames between user code and the
                     // cutoff are expected — they are coroutine machinery artefacts that appear
                     // in the middle of the trace and are intentionally kept (see serializeStackTrace).
-                    append("|hasCutoffFrame=${trace.contains("ActivityDispatcher.invokeMethod")}")
+                    append(
+                        "|hasCutoffFrame=${trace.contains(
+                            "ActivityDispatcher.invokeMethod",
+                        ) || trace.contains("ActivityDispatcher\$invokeMethod")}",
+                    )
                     // Everything below the cutoff must be absent
                     append("|hasDispatchStartTask=${trace.contains("dispatchStartTask")}")
                     append("|hasInterceptorChain=${trace.contains("InterceptorChain")}")
