@@ -180,7 +180,7 @@ jobs:
           path: ${{ matrix.artifact-path }}
 
       - name: Build and test
-        run: ./gradlew build -PskipNativeBuild=true --no-daemon
+        run: ./gradlew build -PskipNativeBuild=true -PexcludeTags=githubactionrunnersarebadmicrosoftshouldfixit --no-daemon
 
   # ===== PUBLISH JOB (runs after all builds and tests) =====
 

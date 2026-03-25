@@ -32,7 +32,11 @@ val nativeAccessArgs = listOf("--enable-native-access=ALL-UNNAMED")
 
 tasks.withType<Test>().configureEach {
     // Configure all test Gradle tasks to use JUnitPlatform.
-    useJUnitPlatform()
+    useJUnitPlatform {
+        providers.gradleProperty("excludeTags").orNull?.let {
+            excludeTags(*it.split(",").toTypedArray())
+        }
+    }
 
     // Enable native access for FFM
     jvmArgs(nativeAccessArgs)

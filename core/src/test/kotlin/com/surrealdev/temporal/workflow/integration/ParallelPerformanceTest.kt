@@ -194,6 +194,7 @@ class ParallelPerformanceTest {
      * - Per-runId mutex doesn't bottleneck different workflows
      */
     @Test
+    @Tag("githubactionrunnersarebadmicrosoftshouldfixit")
     fun `1000 workflows each sleeping 1 second complete quickly`() =
         runTemporalTest(timeSkipping = true, parentCoroutineContext = Dispatchers.Default) {
             val taskQueue = "parallel-workflows-test-${UUID.randomUUID()}"
@@ -239,6 +240,7 @@ class ParallelPerformanceTest {
         }
 
     @Test
+    @Tag("githubactionrunnersarebadmicrosoftshouldfixit")
     fun `1000 workflows each deadlocking point 1 second complete quickly`() =
         runTemporalTest(timeSkipping = true, parentCoroutineContext = Dispatchers.Default) {
             val taskQueue = "parallel-workflows-test-${UUID.randomUUID()}"
