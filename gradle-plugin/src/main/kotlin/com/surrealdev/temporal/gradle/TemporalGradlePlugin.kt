@@ -170,7 +170,6 @@ class TemporalGradlePlugin : KotlinCompilerPluginSupportPlugin {
             listOf(
                 "linux-x86_64-gnu",
                 "linux-aarch64-gnu",
-                "macos-x86_64",
                 "macos-aarch64",
                 "windows-x86_64",
             )
@@ -184,7 +183,6 @@ class TemporalGradlePlugin : KotlinCompilerPluginSupportPlugin {
 
             return when {
                 os.isMacOsX && (arch == "aarch64" || arch == "arm64") -> "macos-aarch64"
-                os.isMacOsX -> "macos-x86_64"
                 os.isLinux && (arch == "aarch64" || arch == "arm64") -> "linux-aarch64-gnu"
                 os.isLinux -> "linux-x86_64-gnu"
                 os.isWindows -> "windows-x86_64"

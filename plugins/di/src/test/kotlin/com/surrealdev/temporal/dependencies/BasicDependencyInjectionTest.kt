@@ -1164,6 +1164,8 @@ class BasicDependencyInjectionTest {
 
         override val continueAsNewSuggestedReasons: Set<SuggestContinueAsNewReason> = setOf()
 
+        override val isTargetWorkerDeploymentVersionChanged: Boolean = false
+
         override suspend fun startChildWorkflowWithPayloads(
             workflowType: String,
             args: TemporalPayloads,

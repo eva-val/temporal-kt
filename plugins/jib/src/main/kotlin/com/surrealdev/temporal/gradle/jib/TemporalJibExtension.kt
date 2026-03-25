@@ -67,7 +67,6 @@ class TemporalJibExtension : JibGradlePluginExtension<Void> {
             setOf(
                 "linux-x86_64-gnu",
                 "linux-aarch64-gnu",
-                "macos-x86_64",
                 "macos-aarch64",
                 "windows-x86_64",
             )
@@ -81,7 +80,6 @@ class TemporalJibExtension : JibGradlePluginExtension<Void> {
                 "linux" if architecture == "amd64" -> setOf("linux-x86_64-gnu")
                 "linux" if architecture == "arm64" -> setOf("linux-aarch64-gnu")
                 "darwin" if architecture == "arm64" -> setOf("macos-aarch64")
-                "darwin" if architecture == "amd64" -> setOf("macos-x86_64")
                 "windows" if architecture == "amd64" -> setOf("windows-x86_64")
                 else -> emptySet()
             }

@@ -23,6 +23,7 @@ import com.surrealdev.temporal.application.plugin.hooks.WorkflowTaskFailedContex
 import com.surrealdev.temporal.application.plugin.hooks.WorkflowTaskStarted
 import com.surrealdev.temporal.common.EncodedTemporalPayloads
 import com.surrealdev.temporal.common.toProto
+import com.surrealdev.temporal.core.SlotSupplier
 import com.surrealdev.temporal.core.TemporalWorker
 import com.surrealdev.temporal.internal.isFatalError
 import com.surrealdev.temporal.serialization.PayloadCodec
@@ -114,6 +115,16 @@ internal class ManagedWorker(
     // Explicit references to polling jobs
     private var workflowPollingJob: Job? = null
     private var activityPollingJob: Job? = null
+    private val grantLoopJobs = mutableListOf<Job>()
+
+    /** Resolves the JvmResourceBased config for a given slot type, or null if not JvmResourceBased. */
+    private fun getSlotSupplierConfig(slotType: String): SlotSupplier.JvmResourceBased? =
+        when (slotType) {
+            "workflow" -> config.workflowSlotSupplier
+            "activity" -> config.activitySlotSupplier
+            "local_activity" -> config.localActivitySlotSupplier
+            else -> null
+        } as? SlotSupplier.JvmResourceBased
 
     // Shutdown signaling
     private val shutdownSignal: CompletableJob = Job()
@@ -240,7 +251,7 @@ internal class ManagedWorker(
             serializer = serializer,
             codec = codec,
             taskQueue = config.name,
-            maxConcurrent = config.maxConcurrentActivities,
+            maxConcurrent = config.activitySlotSupplier.maxConcurrent,
             heartbeatFn = { taskToken, details ->
                 recordActivityHeartbeat(taskToken, details)
             },
@@ -306,6 +317,25 @@ internal class ManagedWorker(
             launch(CoroutineName("ActivityPoller-$taskQueue")) {
                 pollActivityTasks()
             }
+
+        // Launch grant loops for JvmResourceBased slot suppliers
+        val monitor = application.jvmResourceMonitor
+        if (monitor != null) {
+            for (entry in coreWorker.slotSupplierBridges) {
+                val jvmConfig = getSlotSupplierConfig(entry.slotType) ?: continue
+                grantLoopJobs +=
+                    launch(CoroutineName("SlotGrantLoop-${entry.slotType}-$taskQueue")) {
+                        runSlotSupplierGrantLoop(
+                            bridge = entry.bridge,
+                            config = jvmConfig,
+                            monitor = monitor,
+                            slotType = entry.slotType,
+                            taskQueue = taskQueue,
+                            hookRegistry = mergedHookRegistry,
+                        )
+                    }
+            }
+        }
 
         // This ensures that if a polling job fails unexpectedly, shutdown is triggered
         workflowPollingJob?.invokeOnCompletion { cause ->
@@ -381,7 +411,12 @@ internal class ManagedWorker(
             activityPollingJob?.join()
         }
 
-        // Phase 5: Cleanup core worker
+        // Phase 5: Cancel grant loops before freeing core worker
+        grantLoopJobs.forEach { it.cancel() }
+        grantLoopJobs.forEach { it.join() }
+        grantLoopJobs.clear()
+
+        // Phase 6: Cleanup core worker
         // Note: Workflow executors are cleaned up in pollWorkflowActivations() finally block
         logger.debug("[stop] Awaiting core worker shutdown...")
         coreWorker.awaitShutdown()
@@ -408,7 +443,7 @@ internal class ManagedWorker(
                 codec = codec,
                 taskQueue = config.name,
                 namespace = namespace,
-                maxConcurrent = config.maxConcurrentWorkflows,
+                maxConcurrent = config.workflowSlotSupplier.maxConcurrent,
                 taskQueueScope = taskQueueScope,
                 hookRegistry = mergedHookRegistry,
                 parentJob = rootExecutorJob,

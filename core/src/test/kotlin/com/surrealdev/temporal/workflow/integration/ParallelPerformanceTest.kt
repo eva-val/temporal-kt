@@ -6,6 +6,7 @@ import com.surrealdev.temporal.annotation.Workflow
 import com.surrealdev.temporal.annotation.WorkflowRun
 import com.surrealdev.temporal.application.taskQueue
 import com.surrealdev.temporal.client.startWorkflow
+import com.surrealdev.temporal.core.SlotSupplier
 import com.surrealdev.temporal.testing.runTemporalTest
 import com.surrealdev.temporal.workflow.ActivityOptions
 import com.surrealdev.temporal.workflow.WorkflowContext
@@ -148,7 +149,7 @@ class ParallelPerformanceTest {
 
             application {
                 taskQueue(taskQueue) {
-                    maxConcurrentActivities = ACTIVITY_COUNT // Allow all activities to run concurrently
+                    activitySlotSupplier = SlotSupplier.FixedSize(ACTIVITY_COUNT)
                     workflow<ParallelActivitiesWorkflow>()
                     activity(SlowActivity())
                 }
@@ -200,7 +201,7 @@ class ParallelPerformanceTest {
             application {
                 taskQueue(taskQueue) {
                     // Workers should work fine on a single thread with sleep timers
-                    maxConcurrentWorkflows = WORKFLOW_COUNT + 100 // Allow all workflows to run concurrently
+                    workflowSlotSupplier = SlotSupplier.FixedSize(WORKFLOW_COUNT + 100)
                     workflow<OneSleepWorkflow>()
                 }
             }
@@ -244,7 +245,7 @@ class ParallelPerformanceTest {
 
             application {
                 taskQueue(taskQueue) {
-                    maxConcurrentWorkflows = WORKFLOW_COUNT + 100 // Allow all workflows to run concurrently
+                    workflowSlotSupplier = SlotSupplier.JvmResourceBased()
                     workflowDeadlockTimeoutMs = 60000 // additional time to avoid flakey test runner deadlock detection
                     workflow<OneDeadLockedWorkflow>()
                 }

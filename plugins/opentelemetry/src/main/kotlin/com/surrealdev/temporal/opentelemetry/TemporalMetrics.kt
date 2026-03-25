@@ -1,7 +1,9 @@
 package com.surrealdev.temporal.opentelemetry
 
+import io.opentelemetry.api.metrics.DoubleGauge
 import io.opentelemetry.api.metrics.DoubleHistogram
 import io.opentelemetry.api.metrics.LongCounter
+import io.opentelemetry.api.metrics.LongGauge
 import io.opentelemetry.api.metrics.Meter
 
 /**
@@ -103,5 +105,45 @@ class TemporalMetrics(
             .histogramBuilder("temporal.activity.task.duration")
             .setDescription("Activity task execution duration")
             .setUnit("ms")
+            .build()
+
+    // Slot supplier gauges
+
+    val slotMemoryUsage: DoubleGauge =
+        meter
+            .gaugeBuilder("temporal.worker.slot.memory_usage")
+            .setDescription("JVM memory usage ratio observed by slot supplier")
+            .build()
+
+    val slotCpuUsage: DoubleGauge =
+        meter
+            .gaugeBuilder("temporal.worker.slot.cpu_usage")
+            .setDescription("Per-process CPU load observed by slot supplier")
+            .build()
+
+    val slotMemoryPidOutput: DoubleGauge =
+        meter
+            .gaugeBuilder("temporal.worker.slot.memory_pid_output")
+            .setDescription("Memory PID controller output for slot supplier")
+            .build()
+
+    val slotCpuPidOutput: DoubleGauge =
+        meter
+            .gaugeBuilder("temporal.worker.slot.cpu_pid_output")
+            .setDescription("CPU PID controller output for slot supplier")
+            .build()
+
+    val slotActiveCount: LongGauge =
+        meter
+            .gaugeBuilder("temporal.worker.slot.active_count")
+            .setDescription("Number of active slots in use")
+            .ofLongs()
+            .build()
+
+    val slotPendingCount: LongGauge =
+        meter
+            .gaugeBuilder("temporal.worker.slot.pending_count")
+            .setDescription("Number of pending slot reservations")
+            .ofLongs()
             .build()
 }

@@ -27,12 +27,14 @@ import com.surrealdev.temporal.application.worker.WorkerStatus
 import com.surrealdev.temporal.client.TemporalClient
 import com.surrealdev.temporal.client.TemporalClientConfig
 import com.surrealdev.temporal.core.CorePollerBehavior
+import com.surrealdev.temporal.core.SlotSupplier
 import com.surrealdev.temporal.core.TemporalCoreClient
 import com.surrealdev.temporal.core.TemporalRuntime
 import com.surrealdev.temporal.core.TemporalWorker
 import com.surrealdev.temporal.core.TlsConfig
 import com.surrealdev.temporal.core.WorkerConfig
 import com.surrealdev.temporal.core.WorkerDeploymentOptions
+import com.surrealdev.temporal.core.createJvmResourceMonitor
 import com.surrealdev.temporal.internal.ZombieEvictionConfig
 import com.surrealdev.temporal.serialization.NoOpCodec
 import com.surrealdev.temporal.serialization.PayloadCodec
@@ -139,6 +141,8 @@ open class TemporalApplication internal constructor(
     private var runtime: TemporalRuntime? = null
     private var coreClient: TemporalCoreClient? = null
     private val workers = mutableMapOf<String, ManagedWorker>()
+    internal var jvmResourceMonitor: com.surrealdev.temporal.core.internal.JvmResourceMonitor? = null
+        private set
 
     @Volatile
     private var started = false
@@ -185,6 +189,18 @@ open class TemporalApplication internal constructor(
                 ApplicationSetupContext(this, rt, client),
             )
 
+            // Create JVM resource monitor if any task queue uses JvmResourceBased slot suppliers
+            val needsJvmMonitor =
+                taskQueues.any { tq ->
+                    tq.workflowSlotSupplier is SlotSupplier.JvmResourceBased ||
+                        tq.activitySlotSupplier is SlotSupplier.JvmResourceBased ||
+                        tq.localActivitySlotSupplier is SlotSupplier.JvmResourceBased
+                }
+            if (needsJvmMonitor) {
+                jvmResourceMonitor =
+                    createJvmResourceMonitor() as com.surrealdev.temporal.core.internal.JvmResourceMonitor
+            }
+
             // Create and start workers for each task queue
             for (taskQueueConfig in taskQueues) {
                 val effectiveNamespace = taskQueueConfig.namespace ?: config.connection.namespace
@@ -212,8 +228,9 @@ open class TemporalApplication internal constructor(
                             WorkerConfig(
                                 deploymentOptions = config.deployment,
                                 maxCachedWorkflows = taskQueueConfig.maxCachedWorkflows,
-                                maxConcurrentWorkflowTasks = taskQueueConfig.maxConcurrentWorkflows,
-                                maxConcurrentActivities = taskQueueConfig.maxConcurrentActivities,
+                                workflowSlotSupplier = taskQueueConfig.workflowSlotSupplier,
+                                activitySlotSupplier = taskQueueConfig.activitySlotSupplier,
+                                localActivitySlotSupplier = taskQueueConfig.localActivitySlotSupplier,
                                 maxHeartbeatThrottleIntervalMs = taskQueueConfig.maxHeartbeatThrottleIntervalMs,
                                 defaultHeartbeatThrottleIntervalMs = taskQueueConfig.defaultHeartbeatThrottleIntervalMs,
                                 workflowPollerBehavior = taskQueueConfig.workflowPollerBehavior,
@@ -301,6 +318,10 @@ open class TemporalApplication internal constructor(
             }
         }
         workers.clear()
+
+        // Close JVM resource monitor if it was created
+        jvmResourceMonitor?.close()
+        jvmResourceMonitor = null
 
         // Phase 2: Fire shutdown hooks (resource cleanup, etc.)
         hookRegistry.call(
@@ -606,10 +627,12 @@ internal data class TaskQueueConfig(
     val namespace: String? = null,
     val workflows: List<WorkflowRegistration>,
     val activities: List<ActivityRegistration>,
-    /** Maximum number of concurrent workflow executions. */
-    val maxConcurrentWorkflows: Int = 200,
-    /** Maximum number of concurrent activity executions. */
-    val maxConcurrentActivities: Int = 200,
+    /** Slot supplier for workflow task executions. */
+    val workflowSlotSupplier: SlotSupplier = SlotSupplier.FixedSize(200),
+    /** Slot supplier for activity executions. */
+    val activitySlotSupplier: SlotSupplier = SlotSupplier.FixedSize(200),
+    /** Slot supplier for local activity executions. */
+    val localActivitySlotSupplier: SlotSupplier = SlotSupplier.FixedSize(200),
     /** Attributes for task-queue-scoped plugin storage. */
     val attributes: Attributes = Attributes(concurrent = false),
     /** Unified hook registry for task-queue-scoped hooks and interceptors. */

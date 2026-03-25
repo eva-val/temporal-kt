@@ -144,18 +144,22 @@ external mechanism (Kubernetes, systemd, etc.).
 
 Set `maxZombieCount = 0` to disable automatic shutdown.
 
-Zombie threads do **NOT** count toward `maxConcurrentWorkflows` or `maxConcurrentActivities` after task completion.
+Zombie threads do **NOT** count toward slot supplier limits after task completion.
 
 ## Configuration
 
 Key concurrency settings per task queue:
 
-### Concurrency Limits
+### Slot Suppliers
 
-| Setting                  | Default | Description                         |
-|--------------------------|---------|-------------------------------------|
-| `maxConcurrentWorkflows` | 200     | Max concurrent workflow activations |
-| `maxConcurrentActivities`| 200     | Max concurrent activity executions  |
+| Setting                    | Default         | Description                          |
+|----------------------------|-----------------|--------------------------------------|
+| `workflowSlotSupplier`     | `FixedSize(10)` | Slot supplier for workflow tasks      |
+| `activitySlotSupplier`     | `FixedSize(10)` | Slot supplier for activity tasks      |
+| `localActivitySlotSupplier`| `FixedSize(10)` | Slot supplier for local activities    |
+
+Slot suppliers can be `FixedSize(n)` for a simple concurrency limit, or `JvmResourceBased(...)` for
+adaptive resource-based scaling using PID controllers that monitor JVM heap and CPU.
 
 ### Deadlock Detection
 

@@ -124,6 +124,9 @@ internal class WorkflowContextImpl(
     override val continueAsNewSuggestedReasons: Set<SuggestContinueAsNewReason>
         get() = state.suggestContinueAsNewReasons
 
+    override val isTargetWorkerDeploymentVersionChanged: Boolean
+        get() = state.targetWorkerDeploymentVersionChanged
+
     // Create a child job for this workflow - failures propagate to parent
     internal val job = Job(parentJob)
 

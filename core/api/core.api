@@ -88,8 +88,8 @@ public final class com/surrealdev/temporal/activity/HeartbeatDetails {
 }
 
 public final class com/surrealdev/temporal/activity/internal/ActivityDispatcher {
-	public fun <init> (Lcom/surrealdev/temporal/activity/internal/ActivityRegistry;Lcom/surrealdev/temporal/serialization/PayloadSerializer;Lcom/surrealdev/temporal/serialization/PayloadCodec;Ljava/lang/String;ILkotlin/jvm/functions/Function3;Lcom/surrealdev/temporal/util/AttributeScope;Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;Lcom/surrealdev/temporal/internal/ZombieEvictionConfig;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;)V
-	public synthetic fun <init> (Lcom/surrealdev/temporal/activity/internal/ActivityRegistry;Lcom/surrealdev/temporal/serialization/PayloadSerializer;Lcom/surrealdev/temporal/serialization/PayloadCodec;Ljava/lang/String;ILkotlin/jvm/functions/Function3;Lcom/surrealdev/temporal/util/AttributeScope;Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;Lcom/surrealdev/temporal/internal/ZombieEvictionConfig;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lcom/surrealdev/temporal/activity/internal/ActivityRegistry;Lcom/surrealdev/temporal/serialization/PayloadSerializer;Lcom/surrealdev/temporal/serialization/PayloadCodec;Ljava/lang/String;ILkotlin/jvm/functions/Function3;Lcom/surrealdev/temporal/util/AttributeScope;Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lcom/surrealdev/temporal/internal/ZombieEvictionConfig;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;)V
+	public synthetic fun <init> (Lcom/surrealdev/temporal/activity/internal/ActivityRegistry;Lcom/surrealdev/temporal/serialization/PayloadSerializer;Lcom/surrealdev/temporal/serialization/PayloadCodec;Ljava/lang/String;ILkotlin/jvm/functions/Function3;Lcom/surrealdev/temporal/util/AttributeScope;Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lcom/surrealdev/temporal/internal/ZombieEvictionConfig;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function4;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun awaitZombieEviction (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun dispatchCancel (Lcoresdk/activity_task/ActivityTaskOuterClass$ActivityTask;)V
 	public final fun dispatchForTest (Lcoresdk/activity_task/ActivityTaskOuterClass$ActivityTask;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
@@ -213,19 +213,19 @@ public final class com/surrealdev/temporal/application/ActivityRegistration$Inst
 
 public final class com/surrealdev/temporal/application/ConnectionConfig {
 	public fun <init> ()V
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/TlsConfig;Ljava/lang/String;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/TlsConfig;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/core/TlsConfig;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/core/TlsConfig;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Lcom/surrealdev/temporal/client/TlsConfig;
+	public final fun component3 ()Lcom/surrealdev/temporal/core/TlsConfig;
 	public final fun component4 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/TlsConfig;Ljava/lang/String;)Lcom/surrealdev/temporal/application/ConnectionConfig;
-	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/ConnectionConfig;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/TlsConfig;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/ConnectionConfig;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/core/TlsConfig;Ljava/lang/String;)Lcom/surrealdev/temporal/application/ConnectionConfig;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/ConnectionConfig;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/core/TlsConfig;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/ConnectionConfig;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getApiKey ()Ljava/lang/String;
 	public final fun getNamespace ()Ljava/lang/String;
 	public final fun getTarget ()Ljava/lang/String;
-	public final fun getTls ()Lcom/surrealdev/temporal/client/TlsConfig;
+	public final fun getTls ()Lcom/surrealdev/temporal/core/TlsConfig;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
@@ -235,31 +235,35 @@ public final class com/surrealdev/temporal/application/ConnectionConfigBuilder {
 	public final fun getApiKey ()Ljava/lang/String;
 	public final fun getNamespace ()Ljava/lang/String;
 	public final fun getTarget ()Ljava/lang/String;
-	public final fun getTlsConfig ()Lcom/surrealdev/temporal/client/TlsConfig;
+	public final fun getTlsConfig ()Lcom/surrealdev/temporal/core/TlsConfig;
 	public final fun setApiKey (Ljava/lang/String;)V
 	public final fun setNamespace (Ljava/lang/String;)V
 	public final fun setTarget (Ljava/lang/String;)V
-	public final fun setTlsConfig (Lcom/surrealdev/temporal/client/TlsConfig;)V
-	public final fun tls (Lcom/surrealdev/temporal/client/TlsConfig;)V
+	public final fun setTlsConfig (Lcom/surrealdev/temporal/core/TlsConfig;)V
+	public final fun tls (Lcom/surrealdev/temporal/core/TlsConfig;)V
 	public final fun tls (Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class com/surrealdev/temporal/application/DeploymentConfigBuilder {
 	public final fun getBuildId ()Ljava/lang/String;
-	public final fun getDefaultVersioningBehavior ()Lcom/surrealdev/temporal/application/VersioningBehavior;
+	public final fun getDefaultVersioningBehavior ()Lcom/surrealdev/temporal/core/VersioningBehavior;
 	public final fun getDeploymentName ()Ljava/lang/String;
 	public final fun getUseWorkerVersioning ()Z
 	public final fun setBuildId (Ljava/lang/String;)V
-	public final fun setDefaultVersioningBehavior (Lcom/surrealdev/temporal/application/VersioningBehavior;)V
+	public final fun setDefaultVersioningBehavior (Lcom/surrealdev/temporal/core/VersioningBehavior;)V
 	public final fun setDeploymentName (Ljava/lang/String;)V
 	public final fun setUseWorkerVersioning (Z)V
 }
 
 public final class com/surrealdev/temporal/application/EmbeddedTemporal {
 	public final fun getApplication ()Lcom/surrealdev/temporal/application/TemporalApplication;
+	public final fun health ()Lcom/surrealdev/temporal/application/health/ApplicationHealthReport;
+	public final fun isAlive ()Z
+	public final fun isReady ()Z
 	public final fun start (Z)Lcom/surrealdev/temporal/application/EmbeddedTemporal;
 	public static synthetic fun start$default (Lcom/surrealdev/temporal/application/EmbeddedTemporal;ZILjava/lang/Object;)Lcom/surrealdev/temporal/application/EmbeddedTemporal;
 	public final fun stop (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun workerHealth (Ljava/lang/String;)Lcom/surrealdev/temporal/application/health/WorkerHealthReport;
 }
 
 public final class com/surrealdev/temporal/application/EmbeddedTemporalKt {
@@ -301,28 +305,49 @@ public final class com/surrealdev/temporal/application/TaskQueueBuilder : com/su
 	public static synthetic fun activity$default (Lcom/surrealdev/temporal/application/TaskQueueBuilder;Lkotlin/reflect/KFunction;Ljava/lang/String;ILjava/lang/Object;)V
 	public final fun dynamicActivity (Lkotlin/jvm/functions/Function4;)V
 	public final fun getActivities ()Ljava/util/List;
+	public final fun getActivityPollerBehavior ()Lcom/surrealdev/temporal/core/CorePollerBehavior;
+	public final fun getActivitySlotSupplier ()Lcom/surrealdev/temporal/core/SlotSupplier;
 	public fun getAttributes ()Lcom/surrealdev/temporal/util/Attributes;
 	public final fun getDefaultHeartbeatThrottleIntervalMs ()J
 	public final fun getDynamicActivityHandler ()Lkotlin/jvm/functions/Function4;
-	public final fun getMaxConcurrentActivities ()I
-	public final fun getMaxConcurrentWorkflows ()I
+	public final fun getLocalActivitySlotSupplier ()Lcom/surrealdev/temporal/core/SlotSupplier;
+	public final fun getMaxActivitiesPerSecond ()D
+	public final fun getMaxCachedWorkflows ()I
 	public final fun getMaxHeartbeatThrottleIntervalMs ()J
+	public final fun getMaxTaskQueueActivitiesPerSecond ()D
 	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getNondeterminismAsWorkflowFail ()Z
+	public final fun getNondeterminismAsWorkflowFailForTypes ()Ljava/util/List;
+	public final fun getNonstickyToStickyPollRatio ()F
 	public fun getParentScope ()Lcom/surrealdev/temporal/util/AttributeScope;
-	public final fun getShutdownForceTimeoutMs ()J
 	public final fun getShutdownGracePeriodMs ()J
+	public final fun getStickyQueueScheduleToStartTimeoutMs ()J
+	public final fun getTaskQueueName ()Ljava/lang/String;
+	public final fun getWorkerIdentity ()Ljava/lang/String;
 	public final fun getWorkflowDeadlockTimeoutMs ()J
+	public final fun getWorkflowPollerBehavior ()Lcom/surrealdev/temporal/core/CorePollerBehavior;
+	public final fun getWorkflowSlotSupplier ()Lcom/surrealdev/temporal/core/SlotSupplier;
 	public final fun getWorkflows ()Ljava/util/List;
 	public final fun getZombieEviction ()Lcom/surrealdev/temporal/internal/ZombieEvictionConfig;
+	public final fun setActivityPollerBehavior (Lcom/surrealdev/temporal/core/CorePollerBehavior;)V
+	public final fun setActivitySlotSupplier (Lcom/surrealdev/temporal/core/SlotSupplier;)V
 	public final fun setDefaultHeartbeatThrottleIntervalMs (J)V
 	public final fun setDynamicActivityHandler (Lkotlin/jvm/functions/Function4;)V
-	public final fun setMaxConcurrentActivities (I)V
-	public final fun setMaxConcurrentWorkflows (I)V
+	public final fun setLocalActivitySlotSupplier (Lcom/surrealdev/temporal/core/SlotSupplier;)V
+	public final fun setMaxActivitiesPerSecond (D)V
+	public final fun setMaxCachedWorkflows (I)V
 	public final fun setMaxHeartbeatThrottleIntervalMs (J)V
+	public final fun setMaxTaskQueueActivitiesPerSecond (D)V
 	public final fun setNamespace (Ljava/lang/String;)V
-	public final fun setShutdownForceTimeoutMs (J)V
+	public final fun setNondeterminismAsWorkflowFail (Z)V
+	public final fun setNondeterminismAsWorkflowFailForTypes (Ljava/util/List;)V
+	public final fun setNonstickyToStickyPollRatio (F)V
 	public final fun setShutdownGracePeriodMs (J)V
+	public final fun setStickyQueueScheduleToStartTimeoutMs (J)V
+	public final fun setWorkerIdentity (Ljava/lang/String;)V
 	public final fun setWorkflowDeadlockTimeoutMs (J)V
+	public final fun setWorkflowPollerBehavior (Lcom/surrealdev/temporal/core/CorePollerBehavior;)V
+	public final fun setWorkflowSlotSupplier (Lcom/surrealdev/temporal/core/SlotSupplier;)V
 	public final fun setZombieEviction (Lcom/surrealdev/temporal/internal/ZombieEvictionConfig;)V
 }
 
@@ -336,12 +361,15 @@ public class com/surrealdev/temporal/application/TemporalApplication : com/surre
 	public final fun getCoreClient ()Lcom/surrealdev/temporal/core/TemporalCoreClient;
 	public fun getCoroutineContext ()Lkotlin/coroutines/CoroutineContext;
 	public final fun getHookRegistry ()Lcom/surrealdev/temporal/application/plugin/HookRegistry;
-	public final fun getInterceptorRegistry ()Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;
 	public final fun getParentCoroutineContext ()Lkotlin/coroutines/CoroutineContext;
 	public fun getParentScope ()Lcom/surrealdev/temporal/util/AttributeScope;
+	public final fun health ()Lcom/surrealdev/temporal/application/health/ApplicationHealthReport;
+	public final fun isAlive ()Z
+	public final fun isReady ()Z
 	public final fun isWorkerShuttingDown (Ljava/lang/String;)Z
 	public final fun start (ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static synthetic fun start$default (Lcom/surrealdev/temporal/application/TemporalApplication;ZLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun workerHealth (Ljava/lang/String;)Lcom/surrealdev/temporal/application/health/WorkerHealthReport;
 }
 
 public final class com/surrealdev/temporal/application/TemporalApplication$Companion {
@@ -361,9 +389,9 @@ public final class com/surrealdev/temporal/application/TemporalApplicationBuilde
 	public final fun build ()Lcom/surrealdev/temporal/application/TemporalApplication;
 	public final fun connection (Lcom/surrealdev/temporal/application/ConnectionConfig;)V
 	public final fun connection (Lkotlin/jvm/functions/Function1;)V
-	public final fun deployment (Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/application/VersioningBehavior;)V
+	public final fun deployment (Lcom/surrealdev/temporal/core/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/core/VersioningBehavior;)V
 	public final fun deployment (Lkotlin/jvm/functions/Function1;)V
-	public static synthetic fun deployment$default (Lcom/surrealdev/temporal/application/TemporalApplicationBuilder;Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/application/VersioningBehavior;ILjava/lang/Object;)V
+	public static synthetic fun deployment$default (Lcom/surrealdev/temporal/application/TemporalApplicationBuilder;Lcom/surrealdev/temporal/core/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/core/VersioningBehavior;ILjava/lang/Object;)V
 	public final fun getDispatcher ()Lkotlinx/coroutines/CoroutineDispatcher;
 	public final fun setDispatcher (Lkotlinx/coroutines/CoroutineDispatcher;)V
 	public final fun shutdown (Lkotlin/jvm/functions/Function1;)V
@@ -393,45 +421,6 @@ public final class com/surrealdev/temporal/application/TlsConfigBuilder {
 	public final fun setClientPrivateKey ([B)V
 	public final fun setDomain (Ljava/lang/String;)V
 	public final fun setServerRootCaCert ([B)V
-}
-
-public final class com/surrealdev/temporal/application/VersioningBehavior : java/lang/Enum {
-	public static final field AUTO_UPGRADE Lcom/surrealdev/temporal/application/VersioningBehavior;
-	public static final field PINNED Lcom/surrealdev/temporal/application/VersioningBehavior;
-	public static final field UNSPECIFIED Lcom/surrealdev/temporal/application/VersioningBehavior;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public final fun getValue ()I
-	public static fun valueOf (Ljava/lang/String;)Lcom/surrealdev/temporal/application/VersioningBehavior;
-	public static fun values ()[Lcom/surrealdev/temporal/application/VersioningBehavior;
-}
-
-public final class com/surrealdev/temporal/application/WorkerDeploymentOptions {
-	public fun <init> (Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/application/VersioningBehavior;)V
-	public synthetic fun <init> (Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/application/VersioningBehavior;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;
-	public final fun component2 ()Z
-	public final fun component3 ()Lcom/surrealdev/temporal/application/VersioningBehavior;
-	public final fun copy (Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/application/VersioningBehavior;)Lcom/surrealdev/temporal/application/WorkerDeploymentOptions;
-	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/WorkerDeploymentOptions;Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/application/VersioningBehavior;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/WorkerDeploymentOptions;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getDefaultVersioningBehavior ()Lcom/surrealdev/temporal/application/VersioningBehavior;
-	public final fun getUseWorkerVersioning ()Z
-	public final fun getVersion ()Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/surrealdev/temporal/application/WorkerDeploymentVersion {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
-	public final fun component1 ()Ljava/lang/String;
-	public final fun component2 ()Ljava/lang/String;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;
-	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/WorkerDeploymentVersion;
-	public fun equals (Ljava/lang/Object;)Z
-	public final fun getBuildId ()Ljava/lang/String;
-	public final fun getDeploymentName ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/surrealdev/temporal/application/WorkflowRegistration {
@@ -550,7 +539,50 @@ public final class com/surrealdev/temporal/application/config/TlsYamlConfig {
 	public final fun getServerCaCertPath ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
-	public final fun toTlsConfig ()Lcom/surrealdev/temporal/client/TlsConfig;
+	public final fun toTlsConfig ()Lcom/surrealdev/temporal/core/TlsConfig;
+}
+
+public final class com/surrealdev/temporal/application/health/ApplicationHealthReport {
+	public fun <init> (Lcom/surrealdev/temporal/application/health/ApplicationStatus;Ljava/util/List;)V
+	public final fun component1 ()Lcom/surrealdev/temporal/application/health/ApplicationStatus;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Lcom/surrealdev/temporal/application/health/ApplicationStatus;Ljava/util/List;)Lcom/surrealdev/temporal/application/health/ApplicationHealthReport;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/health/ApplicationHealthReport;Lcom/surrealdev/temporal/application/health/ApplicationStatus;Ljava/util/List;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/health/ApplicationHealthReport;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getStatus ()Lcom/surrealdev/temporal/application/health/ApplicationStatus;
+	public final fun getWorkers ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/health/ApplicationStatus : java/lang/Enum {
+	public static final field DEGRADED Lcom/surrealdev/temporal/application/health/ApplicationStatus;
+	public static final field HEALTHY Lcom/surrealdev/temporal/application/health/ApplicationStatus;
+	public static final field NOT_STARTED Lcom/surrealdev/temporal/application/health/ApplicationStatus;
+	public static final field SHUTTING_DOWN Lcom/surrealdev/temporal/application/health/ApplicationStatus;
+	public static final field STARTING Lcom/surrealdev/temporal/application/health/ApplicationStatus;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/surrealdev/temporal/application/health/ApplicationStatus;
+	public static fun values ()[Lcom/surrealdev/temporal/application/health/ApplicationStatus;
+}
+
+public final class com/surrealdev/temporal/application/health/WorkerHealthReport {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/application/worker/WorkerStatus;II)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public final fun component4 ()I
+	public final fun component5 ()I
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/application/worker/WorkerStatus;II)Lcom/surrealdev/temporal/application/health/WorkerHealthReport;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/health/WorkerHealthReport;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/application/worker/WorkerStatus;IIILjava/lang/Object;)Lcom/surrealdev/temporal/application/health/WorkerHealthReport;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActivityZombieCount ()I
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getStatus ()Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public final fun getTaskQueue ()Ljava/lang/String;
+	public final fun getWorkflowZombieCount ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/surrealdev/temporal/application/module/ModuleLoadException : java/lang/RuntimeException {
@@ -567,8 +599,11 @@ public final class com/surrealdev/temporal/application/plugin/ActivityHookBuilde
 }
 
 public final class com/surrealdev/temporal/application/plugin/ApplicationHookBuilder {
+	public final fun onPreStartup (Lkotlin/jvm/functions/Function2;)V
 	public final fun onSetup (Lkotlin/jvm/functions/Function2;)V
 	public final fun onShutdown (Lkotlin/jvm/functions/Function2;)V
+	public final fun onSlotSupplierMetrics (Lkotlin/jvm/functions/Function1;)V
+	public final fun onStartupFailed (Lkotlin/jvm/functions/Function2;)V
 	public final fun onWorkerStarted (Lkotlin/jvm/functions/Function2;)V
 	public final fun onWorkerStopped (Lkotlin/jvm/functions/Function2;)V
 }
@@ -604,14 +639,20 @@ public final class com/surrealdev/temporal/application/plugin/Hook$DefaultImpls 
 	public static fun install (Lcom/surrealdev/temporal/application/plugin/Hook;Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
 }
 
-public final class com/surrealdev/temporal/application/plugin/HookHandler {
-	public final fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;)V
-}
-
 public abstract interface class com/surrealdev/temporal/application/plugin/HookRegistry {
+	public abstract fun addAllFrom (Lcom/surrealdev/temporal/application/plugin/HookRegistry;)V
 	public abstract fun call (Lcom/surrealdev/temporal/application/plugin/Hook;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public abstract fun callBlocking (Lcom/surrealdev/temporal/application/plugin/Hook;Ljava/lang/Object;)V
+	public abstract fun chain (Lcom/surrealdev/temporal/application/plugin/InterceptorHook;)Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorChain;
+	public abstract fun mergeWith (Lcom/surrealdev/temporal/application/plugin/HookRegistry;)Lcom/surrealdev/temporal/application/plugin/HookRegistry;
 	public abstract fun register (Lcom/surrealdev/temporal/application/plugin/Hook;Ljava/lang/Object;)V
+}
+
+public abstract interface class com/surrealdev/temporal/application/plugin/InterceptorHook : com/surrealdev/temporal/application/plugin/Hook {
+}
+
+public final class com/surrealdev/temporal/application/plugin/InterceptorHook$DefaultImpls {
+	public static fun install (Lcom/surrealdev/temporal/application/plugin/InterceptorHook;Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/MissingPluginException : java/lang/IllegalStateException {
@@ -629,7 +670,6 @@ public abstract class com/surrealdev/temporal/application/plugin/PluginBuilder {
 	public final fun application (Lkotlin/jvm/functions/Function1;)V
 	public final fun client (Lkotlin/jvm/functions/Function1;)V
 	public final fun getApplication ()Lcom/surrealdev/temporal/application/TemporalApplication;
-	public final fun getHooks ()Ljava/util/List;
 	public final fun getKey ()Lcom/surrealdev/temporal/util/AttributeKey;
 	public abstract fun getPipeline ()Lcom/surrealdev/temporal/application/plugin/PluginPipeline;
 	public abstract fun getPluginConfig ()Ljava/lang/Object;
@@ -645,10 +685,8 @@ public final class com/surrealdev/temporal/application/plugin/PluginBuilderImpl 
 
 public final class com/surrealdev/temporal/application/plugin/PluginBuilderKt {
 	public static final fun createPluginBuilder (Lcom/surrealdev/temporal/application/plugin/PluginPipeline;Ljava/lang/Object;Lcom/surrealdev/temporal/util/AttributeKey;)Lcom/surrealdev/temporal/application/plugin/PluginBuilder;
-	public static final fun installHooks (Lcom/surrealdev/temporal/application/plugin/PluginBuilder;Lcom/surrealdev/temporal/application/plugin/PluginPipeline;)V
-	public static final fun installInterceptors (Lcom/surrealdev/temporal/application/plugin/PluginBuilder;Lcom/surrealdev/temporal/application/plugin/PluginPipeline;)V
+	public static final fun installHandlers (Lcom/surrealdev/temporal/application/plugin/PluginBuilder;Lcom/surrealdev/temporal/application/plugin/PluginPipeline;)V
 	public static final fun resolveHookRegistry (Lcom/surrealdev/temporal/application/plugin/PluginPipeline;)Lcom/surrealdev/temporal/application/plugin/HookRegistry;
-	public static final fun resolveInterceptorRegistry (Lcom/surrealdev/temporal/application/plugin/PluginPipeline;)Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;
 }
 
 public abstract interface class com/surrealdev/temporal/application/plugin/PluginPipeline : com/surrealdev/temporal/util/AttributeScope {
@@ -671,6 +709,7 @@ public abstract interface class com/surrealdev/temporal/application/plugin/TaskQ
 }
 
 public final class com/surrealdev/temporal/application/plugin/WorkflowHookBuilder {
+	public final fun onBuildCoroutineContext (Lkotlin/jvm/functions/Function1;)V
 	public final fun onCancelExternalWorkflow (Lkotlin/jvm/functions/Function3;)V
 	public final fun onContinueAsNew (Lkotlin/jvm/functions/Function3;)V
 	public final fun onExecute (Lkotlin/jvm/functions/Function3;)V
@@ -774,6 +813,24 @@ public final class com/surrealdev/temporal/application/plugin/hooks/ActivityTask
 	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function2;)V
 }
 
+public final class com/surrealdev/temporal/application/plugin/hooks/ApplicationPreStartup : com/surrealdev/temporal/application/plugin/Hook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/hooks/ApplicationPreStartup;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class com/surrealdev/temporal/application/plugin/hooks/ApplicationPreStartupContext {
+	public fun <init> (Lcom/surrealdev/temporal/application/TemporalApplication;)V
+	public final fun component1 ()Lcom/surrealdev/temporal/application/TemporalApplication;
+	public final fun copy (Lcom/surrealdev/temporal/application/TemporalApplication;)Lcom/surrealdev/temporal/application/plugin/hooks/ApplicationPreStartupContext;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/plugin/hooks/ApplicationPreStartupContext;Lcom/surrealdev/temporal/application/TemporalApplication;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/plugin/hooks/ApplicationPreStartupContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getApplication ()Lcom/surrealdev/temporal/application/TemporalApplication;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class com/surrealdev/temporal/application/plugin/hooks/ApplicationSetup : com/surrealdev/temporal/application/plugin/Hook {
 	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/hooks/ApplicationSetup;
 	public fun getName ()Ljava/lang/String;
@@ -814,6 +871,33 @@ public final class com/surrealdev/temporal/application/plugin/hooks/ApplicationS
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/hooks/ApplicationStartupFailed : com/surrealdev/temporal/application/plugin/Hook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/hooks/ApplicationStartupFailed;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function2;)V
+}
+
+public final class com/surrealdev/temporal/application/plugin/hooks/ApplicationStartupFailedContext {
+	public fun <init> (Lcom/surrealdev/temporal/application/TemporalApplication;Ljava/lang/Throwable;)V
+	public final fun component1 ()Lcom/surrealdev/temporal/application/TemporalApplication;
+	public final fun component2 ()Ljava/lang/Throwable;
+	public final fun copy (Lcom/surrealdev/temporal/application/TemporalApplication;Ljava/lang/Throwable;)Lcom/surrealdev/temporal/application/plugin/hooks/ApplicationStartupFailedContext;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/plugin/hooks/ApplicationStartupFailedContext;Lcom/surrealdev/temporal/application/TemporalApplication;Ljava/lang/Throwable;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/plugin/hooks/ApplicationStartupFailedContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getApplication ()Lcom/surrealdev/temporal/application/TemporalApplication;
+	public final fun getCause ()Ljava/lang/Throwable;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/hooks/BuildWorkflowCoroutineContext : com/surrealdev/temporal/application/plugin/Hook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/hooks/BuildWorkflowCoroutineContext;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function1;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/hooks/HeartbeatContext {
 	public fun <init> ([B[BLjava/lang/String;)V
 	public final fun component1 ()[B
@@ -836,6 +920,38 @@ public final class com/surrealdev/temporal/application/plugin/hooks/HeartbeatSen
 	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function2;)V
 }
 
+public final class com/surrealdev/temporal/application/plugin/hooks/SlotSupplierMetricsContext {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;DDDDII)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun component6 ()D
+	public final fun component7 ()I
+	public final fun component8 ()I
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;DDDDII)Lcom/surrealdev/temporal/application/plugin/hooks/SlotSupplierMetricsContext;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/plugin/hooks/SlotSupplierMetricsContext;Ljava/lang/String;Ljava/lang/String;DDDDIIILjava/lang/Object;)Lcom/surrealdev/temporal/application/plugin/hooks/SlotSupplierMetricsContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActiveSlots ()I
+	public final fun getCpuLoad ()D
+	public final fun getCpuPidOutput ()D
+	public final fun getMemoryPidOutput ()D
+	public final fun getMemoryUsage ()D
+	public final fun getPendingReserves ()I
+	public final fun getSlotType ()Ljava/lang/String;
+	public final fun getTaskQueue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/hooks/SlotSupplierMetricsSampled : com/surrealdev/temporal/application/plugin/Hook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/hooks/SlotSupplierMetricsSampled;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function1;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/hooks/WorkerStarted : com/surrealdev/temporal/application/plugin/Hook {
 	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/hooks/WorkerStarted;
 	public fun getName ()Ljava/lang/String;
@@ -851,6 +967,30 @@ public final class com/surrealdev/temporal/application/plugin/hooks/WorkerStarte
 	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/plugin/hooks/WorkerStartedContext;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/plugin/hooks/WorkerStartedContext;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getTaskQueue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/hooks/WorkerStatusChanged : com/surrealdev/temporal/application/plugin/Hook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/hooks/WorkerStatusChanged;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class com/surrealdev/temporal/application/plugin/hooks/WorkerStatusChangedContext {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/application/worker/WorkerStatus;Lcom/surrealdev/temporal/application/worker/WorkerStatus;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public final fun component4 ()Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/application/worker/WorkerStatus;Lcom/surrealdev/temporal/application/worker/WorkerStatus;)Lcom/surrealdev/temporal/application/plugin/hooks/WorkerStatusChangedContext;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/plugin/hooks/WorkerStatusChangedContext;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/application/worker/WorkerStatus;Lcom/surrealdev/temporal/application/worker/WorkerStatus;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/plugin/hooks/WorkerStatusChangedContext;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getNewStatus ()Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public final fun getPreviousStatus ()Lcom/surrealdev/temporal/application/worker/WorkerStatus;
 	public final fun getTaskQueue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -874,6 +1014,20 @@ public final class com/surrealdev/temporal/application/plugin/hooks/WorkerStoppe
 	public final fun getTaskQueue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/hooks/WorkflowCoroutineContextEvent {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ZLjava/util/Map;)V
+	public final fun contribute (Lkotlin/coroutines/CoroutineContext;)V
+	public final fun getHeaders ()Ljava/util/Map;
+	public final fun getMdcContextMap ()Ljava/util/Map;
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public final fun getTaskQueue ()Ljava/lang/String;
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public final fun isReplaying ()Z
+	public final fun onCompletion (Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/hooks/WorkflowTaskCompleted : com/surrealdev/temporal/application/plugin/Hook {
@@ -963,6 +1117,20 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Cancel
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/CancelExternalWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/CancelExternalWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/CancelWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/CancelWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/CancelWorkflowInput {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -979,6 +1147,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Cancel
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/ContinueAsNew : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/ContinueAsNew;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/ContinueAsNewInput {
 	public synthetic fun <init> (Lcom/surrealdev/temporal/workflow/ContinueAsNewOptions;Lio/temporal/api/common/v1/Payloads;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Lcom/surrealdev/temporal/workflow/ContinueAsNewOptions;
@@ -990,6 +1165,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Contin
 	public final fun getOptions ()Lcom/surrealdev/temporal/workflow/ContinueAsNewOptions;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/CountWorkflows : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/CountWorkflows;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/CountWorkflowsInput {
@@ -1006,6 +1188,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/CountW
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/DescribeWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/DescribeWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/DescribeWorkflowInput {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -1020,6 +1209,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Descri
 	public final fun getWorkflowId ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/ExecuteActivity : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/ExecuteActivity;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/ExecuteActivityInput {
@@ -1045,6 +1241,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Execut
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/ExecuteUpdate : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/ExecuteUpdate;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/ExecuteUpdateInput {
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Ljava/lang/String;Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -1062,6 +1265,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Execut
 	public final fun getUpdateName ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/ExecuteWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/ExecuteWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/ExecuteWorkflowInput {
@@ -1087,6 +1297,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Execut
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/FetchWorkflowHistory : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/FetchWorkflowHistory;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/FetchWorkflowHistoryInput {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -1101,6 +1318,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/FetchW
 	public final fun getWorkflowId ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/FetchWorkflowResult : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/FetchWorkflowResult;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/FetchWorkflowResultInput {
@@ -1119,6 +1343,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/FetchW
 	public final fun getWorkflowId ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/HandleQuery : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/HandleQuery;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/HandleQueryInput {
@@ -1140,6 +1371,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Handle
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/HandleSignal : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/HandleSignal;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/HandleSignalInput {
 	public synthetic fun <init> (Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -1157,6 +1395,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Handle
 	public final fun getWorkflowType ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/Heartbeat : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/Heartbeat;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/HeartbeatInput {
@@ -1177,56 +1422,36 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Interc
 	public final fun execute (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class com/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry {
-	public static final field Companion Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry$Companion;
-	public fun <init> ()V
-	public final fun addAllFrom (Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;)V
-	public final fun getCancelExternalWorkflow ()Ljava/util/List;
-	public final fun getCancelWorkflow ()Ljava/util/List;
-	public final fun getContinueAsNew ()Ljava/util/List;
-	public final fun getCountWorkflows ()Ljava/util/List;
-	public final fun getDescribeWorkflow ()Ljava/util/List;
-	public final fun getExecuteActivity ()Ljava/util/List;
-	public final fun getExecuteUpdate ()Ljava/util/List;
-	public final fun getExecuteWorkflow ()Ljava/util/List;
-	public final fun getFetchWorkflowHistory ()Ljava/util/List;
-	public final fun getFetchWorkflowResult ()Ljava/util/List;
-	public final fun getHandleQuery ()Ljava/util/List;
-	public final fun getHandleSignal ()Ljava/util/List;
-	public final fun getHeartbeat ()Ljava/util/List;
-	public final fun getListWorkflows ()Ljava/util/List;
-	public final fun getQueryWorkflow ()Ljava/util/List;
-	public final fun getScheduleActivity ()Ljava/util/List;
-	public final fun getScheduleLocalActivity ()Ljava/util/List;
-	public final fun getSignalExternalWorkflow ()Ljava/util/List;
-	public final fun getSignalWorkflow ()Ljava/util/List;
-	public final fun getSleep ()Ljava/util/List;
-	public final fun getStartChildWorkflow ()Ljava/util/List;
-	public final fun getStartWorkflow ()Ljava/util/List;
-	public final fun getStartWorkflowUpdate ()Ljava/util/List;
-	public final fun getTerminateWorkflow ()Ljava/util/List;
-	public final fun getValidateUpdate ()Ljava/util/List;
-	public final fun mergeWith (Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;)Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;
-}
-
-public final class com/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry$Companion {
-	public final fun getEMPTY ()Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;
+public final class com/surrealdev/temporal/application/plugin/interceptor/ListWorkflows : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/ListWorkflows;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/ListWorkflowsInput {
-	public fun <init> (Ljava/lang/String;ILjava/util/Map;)V
-	public synthetic fun <init> (Ljava/lang/String;ILjava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;ILcom/google/protobuf/ByteString;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;ILcom/google/protobuf/ByteString;Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()I
-	public final fun component3 ()Ljava/util/Map;
-	public final fun copy (Ljava/lang/String;ILjava/util/Map;)Lcom/surrealdev/temporal/application/plugin/interceptor/ListWorkflowsInput;
-	public static synthetic fun copy$default (Lcom/surrealdev/temporal/application/plugin/interceptor/ListWorkflowsInput;Ljava/lang/String;ILjava/util/Map;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/plugin/interceptor/ListWorkflowsInput;
+	public final fun component3-jiFCkHc ()Lcom/google/protobuf/ByteString;
+	public final fun component4 ()Ljava/util/Map;
+	public final fun copy-I-tcQEg (Ljava/lang/String;ILcom/google/protobuf/ByteString;Ljava/util/Map;)Lcom/surrealdev/temporal/application/plugin/interceptor/ListWorkflowsInput;
+	public static synthetic fun copy-I-tcQEg$default (Lcom/surrealdev/temporal/application/plugin/interceptor/ListWorkflowsInput;Ljava/lang/String;ILcom/google/protobuf/ByteString;Ljava/util/Map;ILjava/lang/Object;)Lcom/surrealdev/temporal/application/plugin/interceptor/ListWorkflowsInput;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getHeaders ()Ljava/util/Map;
+	public final fun getNextPageToken-jiFCkHc ()Lcom/google/protobuf/ByteString;
 	public final fun getPageSize ()I
 	public final fun getQuery ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/QueryWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/QueryWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/QueryWorkflowInput {
@@ -1249,6 +1474,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/QueryW
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/ScheduleActivity : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/ScheduleActivity;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/ScheduleActivityInput {
 	public synthetic fun <init> (Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Lcom/surrealdev/temporal/workflow/ActivityOptions;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -1262,6 +1494,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Schedu
 	public final fun getOptions ()Lcom/surrealdev/temporal/workflow/ActivityOptions;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/ScheduleLocalActivity : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/ScheduleLocalActivity;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/ScheduleLocalActivityInput {
@@ -1302,6 +1541,20 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Signal
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/SignalExternalWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/SignalExternalWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/SignalWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/SignalWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/SignalWorkflowInput {
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -1322,6 +1575,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Signal
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/Sleep : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/Sleep;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/SleepInput {
 	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1-UwyO8pc ()J
@@ -1331,6 +1591,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/SleepI
 	public final fun getDuration-UwyO8pc ()J
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/StartChildWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/StartChildWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/StartChildWorkflowInput {
@@ -1349,6 +1616,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/StartC
 	public final fun getWorkflowType ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/StartWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/StartWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/StartWorkflowInput {
@@ -1373,6 +1647,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/StartW
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/StartWorkflowUpdate : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/StartWorkflowUpdate;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/StartWorkflowUpdateInput {
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -1393,6 +1674,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/StartW
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/plugin/interceptor/TerminateWorkflow : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/TerminateWorkflow;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
+}
+
 public final class com/surrealdev/temporal/application/plugin/interceptor/TerminateWorkflowInput {
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -1409,6 +1697,13 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Termin
 	public final fun getWorkflowId ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/application/plugin/interceptor/ValidateUpdate : com/surrealdev/temporal/application/plugin/InterceptorHook {
+	public static final field INSTANCE Lcom/surrealdev/temporal/application/plugin/interceptor/ValidateUpdate;
+	public fun getName ()Ljava/lang/String;
+	public synthetic fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Ljava/lang/Object;)V
+	public fun install (Lcom/surrealdev/temporal/application/plugin/HookRegistry;Lkotlin/jvm/functions/Function3;)V
 }
 
 public final class com/surrealdev/temporal/application/plugin/interceptor/ValidateUpdateInput {
@@ -1430,6 +1725,20 @@ public final class com/surrealdev/temporal/application/plugin/interceptor/Valida
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/application/worker/WorkerStatus : java/lang/Enum {
+	public static final field CREATED Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public static final field FAILED Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public static final field READY Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public static final field STARTING Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public static final field STOPPED Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public static final field STOPPING Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun isServing ()Z
+	public final fun isTerminal ()Z
+	public static fun valueOf (Ljava/lang/String;)Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+	public static fun values ()[Lcom/surrealdev/temporal/application/worker/WorkerStatus;
+}
+
 public final class com/surrealdev/temporal/client/ResultPollingConfig {
 	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -1449,35 +1758,35 @@ public abstract interface class com/surrealdev/temporal/client/TemporalClient {
 	public static synthetic fun countWorkflows$default (Lcom/surrealdev/temporal/client/TemporalClient;Ljava/lang/String;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public abstract fun getSerializer ()Lcom/surrealdev/temporal/serialization/PayloadSerializer;
 	public abstract fun getWorkflowHandleInternal (Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/WorkflowHandle;
-	public abstract fun listWorkflows (Ljava/lang/String;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static synthetic fun listWorkflows$default (Lcom/surrealdev/temporal/client/TemporalClient;Ljava/lang/String;ILkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public abstract fun listWorkflows-I-tcQEg (Ljava/lang/String;ILcom/google/protobuf/ByteString;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun listWorkflows-I-tcQEg$default (Lcom/surrealdev/temporal/client/TemporalClient;Ljava/lang/String;ILcom/google/protobuf/ByteString;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 	public abstract fun startWorkflowWithPayloads-kET-0Vs (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Lcom/surrealdev/temporal/client/WorkflowStartOptions;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/surrealdev/temporal/client/TemporalClient$Companion {
 	public final fun connect (Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun create (Lcom/surrealdev/temporal/core/TemporalCoreClient;Ljava/lang/String;Lcom/surrealdev/temporal/serialization/PayloadSerializer;Lcom/surrealdev/temporal/serialization/PayloadCodec;Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;)Lcom/surrealdev/temporal/client/TemporalClient;
-	public static synthetic fun create$default (Lcom/surrealdev/temporal/client/TemporalClient$Companion;Lcom/surrealdev/temporal/core/TemporalCoreClient;Ljava/lang/String;Lcom/surrealdev/temporal/serialization/PayloadSerializer;Lcom/surrealdev/temporal/serialization/PayloadCodec;Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/TemporalClient;
+	public final fun create (Lcom/surrealdev/temporal/core/TemporalCoreClient;Ljava/lang/String;Lcom/surrealdev/temporal/serialization/PayloadSerializer;Lcom/surrealdev/temporal/serialization/PayloadCodec;Lcom/surrealdev/temporal/application/plugin/HookRegistry;)Lcom/surrealdev/temporal/client/TemporalClient;
+	public static synthetic fun create$default (Lcom/surrealdev/temporal/client/TemporalClient$Companion;Lcom/surrealdev/temporal/core/TemporalCoreClient;Ljava/lang/String;Lcom/surrealdev/temporal/serialization/PayloadSerializer;Lcom/surrealdev/temporal/serialization/PayloadCodec;Lcom/surrealdev/temporal/application/plugin/HookRegistry;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/TemporalClient;
 }
 
 public final class com/surrealdev/temporal/client/TemporalClient$DefaultImpls {
 	public static synthetic fun countWorkflows$default (Lcom/surrealdev/temporal/client/TemporalClient;Ljava/lang/String;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
-	public static synthetic fun listWorkflows$default (Lcom/surrealdev/temporal/client/TemporalClient;Ljava/lang/String;ILkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static synthetic fun listWorkflows-I-tcQEg$default (Lcom/surrealdev/temporal/client/TemporalClient;Ljava/lang/String;ILcom/google/protobuf/ByteString;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
 public final class com/surrealdev/temporal/client/TemporalClientConfig : com/surrealdev/temporal/application/plugin/PluginPipeline {
 	public fun <init> ()V
 	public final fun getApiKey ()Ljava/lang/String;
 	public fun getAttributes ()Lcom/surrealdev/temporal/util/Attributes;
-	public final fun getInterceptorRegistry ()Lcom/surrealdev/temporal/application/plugin/interceptor/InterceptorRegistry;
+	public final fun getHookRegistry ()Lcom/surrealdev/temporal/application/plugin/HookRegistry;
 	public final fun getNamespace ()Ljava/lang/String;
 	public fun getParentScope ()Lcom/surrealdev/temporal/util/AttributeScope;
 	public final fun getTarget ()Ljava/lang/String;
-	public final fun getTls ()Lcom/surrealdev/temporal/client/TlsConfig;
+	public final fun getTls ()Lcom/surrealdev/temporal/core/TlsConfig;
 	public final fun setApiKey (Ljava/lang/String;)V
 	public final fun setNamespace (Ljava/lang/String;)V
 	public final fun setTarget (Ljava/lang/String;)V
-	public final fun setTls (Lcom/surrealdev/temporal/client/TlsConfig;)V
+	public final fun setTls (Lcom/surrealdev/temporal/core/TlsConfig;)V
 	public final fun tls (Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -1493,43 +1802,13 @@ public final class com/surrealdev/temporal/client/TemporalClientImpl : com/surre
 	public fun countWorkflows (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun getSerializer ()Lcom/surrealdev/temporal/serialization/PayloadSerializer;
 	public fun getWorkflowHandleInternal (Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/WorkflowHandle;
-	public fun listWorkflows (Ljava/lang/String;ILkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun listWorkflows-I-tcQEg (Ljava/lang/String;ILcom/google/protobuf/ByteString;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun startWorkflowWithPayloads-kET-0Vs (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Lcom/surrealdev/temporal/client/WorkflowStartOptions;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/surrealdev/temporal/client/TemporalClientKt {
 	public static final fun getWorkflowHandle (Lcom/surrealdev/temporal/client/TemporalClient;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/WorkflowHandle;
 	public static synthetic fun getWorkflowHandle$default (Lcom/surrealdev/temporal/client/TemporalClient;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/WorkflowHandle;
-}
-
-public final class com/surrealdev/temporal/client/TlsConfig {
-	public static final field Companion Lcom/surrealdev/temporal/client/TlsConfig$Companion;
-	public fun <init> ()V
-	public fun <init> ([BLjava/lang/String;[B[B)V
-	public synthetic fun <init> ([BLjava/lang/String;[B[BILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()[B
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()[B
-	public final fun component4 ()[B
-	public final fun copy ([BLjava/lang/String;[B[B)Lcom/surrealdev/temporal/client/TlsConfig;
-	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/TlsConfig;[BLjava/lang/String;[B[BILjava/lang/Object;)Lcom/surrealdev/temporal/client/TlsConfig;
-	public fun equals (Ljava/lang/Object;)Z
-	public static final fun fromFiles (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/TlsConfig;
-	public static final fun fromFiles (Ljava/nio/file/Path;Ljava/lang/String;Ljava/nio/file/Path;Ljava/nio/file/Path;)Lcom/surrealdev/temporal/client/TlsConfig;
-	public final fun getClientCert ()[B
-	public final fun getClientPrivateKey ()[B
-	public final fun getDomain ()Ljava/lang/String;
-	public final fun getServerRootCaCert ()[B
-	public fun hashCode ()I
-	public final fun isMtls ()Z
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class com/surrealdev/temporal/client/TlsConfig$Companion {
-	public final fun fromFiles (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/TlsConfig;
-	public final fun fromFiles (Ljava/nio/file/Path;Ljava/lang/String;Ljava/nio/file/Path;Ljava/nio/file/Path;)Lcom/surrealdev/temporal/client/TlsConfig;
-	public static synthetic fun fromFiles$default (Lcom/surrealdev/temporal/client/TlsConfig$Companion;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/TlsConfig;
-	public static synthetic fun fromFiles$default (Lcom/surrealdev/temporal/client/TlsConfig$Companion;Ljava/nio/file/Path;Ljava/lang/String;Ljava/nio/file/Path;Ljava/nio/file/Path;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/TlsConfig;
 }
 
 public final class com/surrealdev/temporal/client/TlsConfigBuilder {
@@ -1547,22 +1826,24 @@ public final class com/surrealdev/temporal/client/TlsConfigBuilder {
 }
 
 public final class com/surrealdev/temporal/client/WorkflowExecutionDescription {
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/WorkflowExecutionStatus;JLjava/lang/Long;J)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/WorkflowExecutionStatus;Ljava/lang/String;JLjava/lang/Long;J)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Lcom/surrealdev/temporal/client/WorkflowExecutionStatus;
-	public final fun component5 ()J
-	public final fun component6 ()Ljava/lang/Long;
-	public final fun component7 ()J
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/WorkflowExecutionStatus;JLjava/lang/Long;J)Lcom/surrealdev/temporal/client/WorkflowExecutionDescription;
-	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/WorkflowExecutionDescription;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/WorkflowExecutionStatus;JLjava/lang/Long;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/WorkflowExecutionDescription;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()J
+	public final fun component7 ()Ljava/lang/Long;
+	public final fun component8 ()J
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/WorkflowExecutionStatus;Ljava/lang/String;JLjava/lang/Long;J)Lcom/surrealdev/temporal/client/WorkflowExecutionDescription;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/WorkflowExecutionDescription;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/surrealdev/temporal/client/WorkflowExecutionStatus;Ljava/lang/String;JLjava/lang/Long;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/WorkflowExecutionDescription;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getCloseTime ()Ljava/lang/Long;
 	public final fun getHistoryLength ()J
 	public final fun getRunId ()Ljava/lang/String;
 	public final fun getStartTime ()J
 	public final fun getStatus ()Lcom/surrealdev/temporal/client/WorkflowExecutionStatus;
+	public final fun getTaskQueue ()Ljava/lang/String;
 	public final fun getWorkflowId ()Ljava/lang/String;
 	public final fun getWorkflowType ()Ljava/lang/String;
 	public fun hashCode ()I
@@ -1694,6 +1975,1337 @@ public final class com/surrealdev/temporal/client/WorkflowStartOptions {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/surrealdev/temporal/client/history/TemporalEventType : java/lang/Enum {
+	public static final field ACTIVITY_PROPERTIES_MODIFIED_EXTERNALLY Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field ACTIVITY_TASK_CANCELED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field ACTIVITY_TASK_CANCEL_REQUESTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field ACTIVITY_TASK_COMPLETED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field ACTIVITY_TASK_FAILED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field ACTIVITY_TASK_SCHEDULED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field ACTIVITY_TASK_STARTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field ACTIVITY_TASK_TIMED_OUT Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field CHILD_WORKFLOW_EXECUTION_CANCELED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field CHILD_WORKFLOW_EXECUTION_COMPLETED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field CHILD_WORKFLOW_EXECUTION_FAILED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field CHILD_WORKFLOW_EXECUTION_STARTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field CHILD_WORKFLOW_EXECUTION_TERMINATED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field CHILD_WORKFLOW_EXECUTION_TIMED_OUT Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field Companion Lcom/surrealdev/temporal/client/history/TemporalEventType$Companion;
+	public static final field EXTERNAL_WORKFLOW_EXECUTION_CANCEL_REQUESTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field EXTERNAL_WORKFLOW_EXECUTION_SIGNALED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field MARKER_RECORDED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field NEXUS_OPERATION_CANCELED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field NEXUS_OPERATION_CANCEL_REQUESTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field NEXUS_OPERATION_CANCEL_REQUEST_COMPLETED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field NEXUS_OPERATION_CANCEL_REQUEST_FAILED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field NEXUS_OPERATION_COMPLETED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field NEXUS_OPERATION_FAILED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field NEXUS_OPERATION_SCHEDULED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field NEXUS_OPERATION_STARTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field NEXUS_OPERATION_TIMED_OUT Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field START_CHILD_WORKFLOW_EXECUTION_FAILED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field START_CHILD_WORKFLOW_EXECUTION_INITIATED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field TIMER_CANCELED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field TIMER_FIRED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field TIMER_STARTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field UNKNOWN Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field UPSERT_WORKFLOW_SEARCH_ATTRIBUTES Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_CANCELED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_CANCEL_REQUESTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_COMPLETED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_CONTINUED_AS_NEW Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_FAILED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_OPTIONS_UPDATED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_PAUSED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_SIGNALED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_STARTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_TERMINATED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_TIMED_OUT Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_UNPAUSED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_UPDATE_ACCEPTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_UPDATE_ADMITTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_UPDATE_COMPLETED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_EXECUTION_UPDATE_REJECTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_PROPERTIES_MODIFIED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_PROPERTIES_MODIFIED_EXTERNALLY Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_TASK_COMPLETED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_TASK_FAILED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_TASK_SCHEDULED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_TASK_STARTED Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static final field WORKFLOW_TASK_TIMED_OUT Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public static fun values ()[Lcom/surrealdev/temporal/client/history/TemporalEventType;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalEventType$Companion {
+}
+
+public abstract class com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public static final field Companion Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$Companion;
+	public abstract fun getEventId ()J
+	public abstract fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public abstract fun getTimestamp ()J
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityPropertiesModifiedExternally : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun copy (JJJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityPropertiesModifiedExternally;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityPropertiesModifiedExternally;JJJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityPropertiesModifiedExternally;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCancelRequested : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun copy (JJJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCancelRequested;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCancelRequested;JJJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCancelRequested;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCanceled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJJLjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (JJJJLjava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCanceled;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCanceled;JJJJLjava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCanceled;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCompleted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJJJLjava/lang/String;Lio/temporal/api/common/v1/Payloads;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6-LTUxYMk ()Lio/temporal/api/common/v1/Payloads;
+	public final fun copy-cN92PeQ (JJJJLjava/lang/String;Lio/temporal/api/common/v1/Payloads;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCompleted;
+	public static synthetic fun copy-cN92PeQ$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCompleted;JJJJLjava/lang/String;Lio/temporal/api/common/v1/Payloads;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskCompleted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getResult-LTUxYMk ()Lio/temporal/api/common/v1/Payloads;
+	public final fun getScheduledEventId ()J
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskFailed : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun copy (JJJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskFailed;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskFailed;JJJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getRetryState ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskScheduled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component10-FghU774 ()Lkotlin/time/Duration;
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6-LTUxYMk ()Lio/temporal/api/common/v1/Payloads;
+	public final fun component7-FghU774 ()Lkotlin/time/Duration;
+	public final fun component8-FghU774 ()Lkotlin/time/Duration;
+	public final fun component9-FghU774 ()Lkotlin/time/Duration;
+	public final fun copy-gPAFxKc (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskScheduled;
+	public static synthetic fun copy-gPAFxKc$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskScheduled;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskScheduled;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActivityId ()Ljava/lang/String;
+	public final fun getActivityType ()Ljava/lang/String;
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getHeartbeatTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getInput-LTUxYMk ()Lio/temporal/api/common/v1/Payloads;
+	public final fun getScheduleToCloseTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getScheduleToStartTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getStartToCloseTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getTaskQueue ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskStarted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJLjava/lang/String;Ljava/lang/String;ILjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()I
+	public final fun component7 ()Ljava/lang/String;
+	public final fun copy (JJJLjava/lang/String;Ljava/lang/String;ILjava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskStarted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskStarted;JJJLjava/lang/String;Ljava/lang/String;ILjava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskStarted;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAttempt ()I
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getLastFailureMessage ()Ljava/lang/String;
+	public final fun getRequestId ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskTimedOut : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (JJJJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskTimedOut;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskTimedOut;JJJJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ActivityTaskTimedOut;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getRetryState ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionCanceled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()J
+	public final fun component8 ()J
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionCanceled;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionCanceled;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionCanceled;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionCompleted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()J
+	public final fun component8 ()J
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionCompleted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionCompleted;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionCompleted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionFailed : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component10 ()Ljava/lang/String;
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()J
+	public final fun component8 ()J
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionFailed;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionFailed;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRetryState ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionStarted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()J
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionStarted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionStarted;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionStarted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionTerminated : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()J
+	public final fun component8 ()J
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionTerminated;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionTerminated;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionTerminated;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionTimedOut : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()J
+	public final fun component8 ()J
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionTimedOut;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionTimedOut;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ChildWorkflowExecutionTimedOut;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRetryState ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$Companion {
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ExternalWorkflowExecutionCancelRequested : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;J)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()J
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;J)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ExternalWorkflowExecutionCancelRequested;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ExternalWorkflowExecutionCancelRequested;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ExternalWorkflowExecutionCancelRequested;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$ExternalWorkflowExecutionSignaled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;J)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()J
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;J)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ExternalWorkflowExecutionSignaled;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ExternalWorkflowExecutionSignaled;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$ExternalWorkflowExecutionSignaled;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$MarkerRecorded : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$MarkerRecorded;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$MarkerRecorded;JJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$MarkerRecorded;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getMarkerName ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequestCompleted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun copy (JJJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequestCompleted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequestCompleted;JJJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequestCompleted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequestFailed : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJLjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JJJLjava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequestFailed;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequestFailed;JJJLjava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequestFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequested : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun copy (JJJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequested;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequested;JJJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCancelRequested;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCanceled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (JJJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCanceled;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCanceled;JJJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCanceled;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getRequestId ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCompleted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJLjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JJJLjava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCompleted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCompleted;JJJLjava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationCompleted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getRequestId ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationFailed : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (JJJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationFailed;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationFailed;JJJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getRequestId ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationScheduled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7-FghU774 ()Lkotlin/time/Duration;
+	public final fun copy-49GGDZQ (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationScheduled;
+	public static synthetic fun copy-49GGDZQ$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationScheduled;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationScheduled;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEndpoint ()Ljava/lang/String;
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getOperation ()Ljava/lang/String;
+	public final fun getRequestId ()Ljava/lang/String;
+	public final fun getScheduleToCloseTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getService ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationStarted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (JJJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationStarted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationStarted;JJJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationStarted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getOperationToken ()Ljava/lang/String;
+	public final fun getRequestId ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationTimedOut : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (JJJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationTimedOut;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationTimedOut;JJJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$NexusOperationTimedOut;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getRequestId ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$RequestCancelExternalWorkflowExecutionFailed : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()J
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$RequestCancelExternalWorkflowExecutionFailed;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$RequestCancelExternalWorkflowExecutionFailed;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$RequestCancelExternalWorkflowExecutionFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCause ()Ljava/lang/String;
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$RequestCancelExternalWorkflowExecutionInitiated : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$RequestCancelExternalWorkflowExecutionInitiated;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$RequestCancelExternalWorkflowExecutionInitiated;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$RequestCancelExternalWorkflowExecutionInitiated;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getReason ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$SignalExternalWorkflowExecutionFailed : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()J
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$SignalExternalWorkflowExecutionFailed;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$SignalExternalWorkflowExecutionFailed;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$SignalExternalWorkflowExecutionFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCause ()Ljava/lang/String;
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$SignalExternalWorkflowExecutionInitiated : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$SignalExternalWorkflowExecutionInitiated;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$SignalExternalWorkflowExecutionInitiated;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$SignalExternalWorkflowExecutionInitiated;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getRunId ()Ljava/lang/String;
+	public final fun getSignalName ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$StartChildWorkflowExecutionFailed : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()J
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$StartChildWorkflowExecutionFailed;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$StartChildWorkflowExecutionFailed;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$StartChildWorkflowExecutionFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCause ()Ljava/lang/String;
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getInitiatedEventId ()J
+	public final fun getNamespace ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$StartChildWorkflowExecutionInitiated : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7-FghU774 ()Lkotlin/time/Duration;
+	public final fun component8-FghU774 ()Lkotlin/time/Duration;
+	public final fun component9-FghU774 ()Lkotlin/time/Duration;
+	public final fun copy-dqPqTTs (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$StartChildWorkflowExecutionInitiated;
+	public static synthetic fun copy-dqPqTTs$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$StartChildWorkflowExecutionInitiated;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$StartChildWorkflowExecutionInitiated;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getTaskQueue ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowExecutionTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getWorkflowId ()Ljava/lang/String;
+	public final fun getWorkflowRunTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getWorkflowTaskTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerCanceled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;JLjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()J
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;JLjava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerCanceled;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerCanceled;JJLjava/lang/String;JLjava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerCanceled;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getStartedEventId ()J
+	public final fun getTimerId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerFired : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;J)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()J
+	public final fun copy (JJLjava/lang/String;J)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerFired;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerFired;JJLjava/lang/String;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerFired;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getStartedEventId ()J
+	public final fun getTimerId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerStarted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJLjava/lang/String;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4-FghU774 ()Lkotlin/time/Duration;
+	public final fun copy-Q2Q30fc (JJLjava/lang/String;Lkotlin/time/Duration;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerStarted;
+	public static synthetic fun copy-Q2Q30fc$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerStarted;JJLjava/lang/String;Lkotlin/time/Duration;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$TimerStarted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getStartToFireTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getTimerId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$Unknown : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JLcom/surrealdev/temporal/client/history/TemporalEventType;J)V
+	public final fun component1 ()J
+	public final fun component2 ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun component3 ()J
+	public final fun copy (JLcom/surrealdev/temporal/client/history/TemporalEventType;J)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$Unknown;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$Unknown;JLcom/surrealdev/temporal/client/history/TemporalEventType;JILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$Unknown;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$UpsertWorkflowSearchAttributes : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun copy (JJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$UpsertWorkflowSearchAttributes;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$UpsertWorkflowSearchAttributes;JJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$UpsertWorkflowSearchAttributes;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCancelRequested : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCancelRequested;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCancelRequested;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCancelRequested;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCause ()Ljava/lang/String;
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getExternalRunId ()Ljava/lang/String;
+	public final fun getExternalWorkflowId ()Ljava/lang/String;
+	public final fun getIdentity ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCanceled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun copy (JJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCanceled;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCanceled;JJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCanceled;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCompleted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJLio/temporal/api/common/v1/Payloads;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3-LTUxYMk ()Lio/temporal/api/common/v1/Payloads;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy-4sl0vEc (JJLio/temporal/api/common/v1/Payloads;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCompleted;
+	public static synthetic fun copy-4sl0vEc$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCompleted;JJLio/temporal/api/common/v1/Payloads;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCompleted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getNewExecutionRunId ()Ljava/lang/String;
+	public final fun getResult-LTUxYMk ()Lio/temporal/api/common/v1/Payloads;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionContinuedAsNew : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6-FghU774 ()Lkotlin/time/Duration;
+	public final fun component7-FghU774 ()Lkotlin/time/Duration;
+	public final fun copy-mUmckqk (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionContinuedAsNew;
+	public static synthetic fun copy-mUmckqk$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionContinuedAsNew;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionContinuedAsNew;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getNewExecutionRunId ()Ljava/lang/String;
+	public final fun getTaskQueue ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowRunTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getWorkflowTaskTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionFailed : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionFailed;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionFailed;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getNewExecutionRunId ()Ljava/lang/String;
+	public final fun getRetryState ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionOptionsUpdated : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionOptionsUpdated;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionOptionsUpdated;JJLjava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionOptionsUpdated;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionPaused : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionPaused;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionPaused;JJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionPaused;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getReason ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionSignaled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionSignaled;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionSignaled;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionSignaled;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getExternalRunId ()Ljava/lang/String;
+	public final fun getExternalWorkflowId ()Ljava/lang/String;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getSignalName ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionStarted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJLjava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component10 ()Ljava/lang/String;
+	public final fun component11 ()Ljava/lang/String;
+	public final fun component12 ()Ljava/lang/String;
+	public final fun component13 ()Ljava/lang/String;
+	public final fun component14 ()Ljava/lang/String;
+	public final fun component15-FghU774 ()Lkotlin/time/Duration;
+	public final fun component16-FghU774 ()Lkotlin/time/Duration;
+	public final fun component17-FghU774 ()Lkotlin/time/Duration;
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5-LTUxYMk ()Lio/temporal/api/common/v1/Payloads;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()I
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy-JkJYays (JJLjava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionStarted;
+	public static synthetic fun copy-JkJYays$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionStarted;JJLjava/lang/String;Ljava/lang/String;Lio/temporal/api/common/v1/Payloads;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionStarted;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAttempt ()I
+	public final fun getContinuedExecutionRunId ()Ljava/lang/String;
+	public final fun getCronSchedule ()Ljava/lang/String;
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFirstExecutionRunId ()Ljava/lang/String;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getInput-LTUxYMk ()Lio/temporal/api/common/v1/Payloads;
+	public final fun getOriginalExecutionRunId ()Ljava/lang/String;
+	public final fun getParentRunId ()Ljava/lang/String;
+	public final fun getParentWorkflowId ()Ljava/lang/String;
+	public final fun getParentWorkflowNamespace ()Ljava/lang/String;
+	public final fun getTaskQueue ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public final fun getWorkflowExecutionTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getWorkflowRunTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getWorkflowTaskTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getWorkflowType ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTerminated : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTerminated;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTerminated;JJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTerminated;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getReason ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTimedOut : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTimedOut;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTimedOut;JJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTimedOut;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getNewExecutionRunId ()Ljava/lang/String;
+	public final fun getRetryState ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUnpaused : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUnpaused;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUnpaused;JJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUnpaused;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getReason ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateAccepted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateAccepted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateAccepted;JJLjava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateAccepted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getProtocolInstanceId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateAdmitted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun copy (JJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateAdmitted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateAdmitted;JJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateAdmitted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateCompleted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun copy (JJJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateCompleted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateCompleted;JJJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateCompleted;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAcceptedEventId ()J
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateRejected : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateRejected;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateRejected;JJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionUpdateRejected;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getProtocolInstanceId ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowPropertiesModified : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun copy (JJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowPropertiesModified;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowPropertiesModified;JJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowPropertiesModified;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowPropertiesModifiedExternally : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJLjava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4-FghU774 ()Lkotlin/time/Duration;
+	public final fun component5-FghU774 ()Lkotlin/time/Duration;
+	public final fun component6-FghU774 ()Lkotlin/time/Duration;
+	public final fun copy-i0Du9Bc (JJLjava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowPropertiesModifiedExternally;
+	public static synthetic fun copy-i0Du9Bc$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowPropertiesModifiedExternally;JJLjava/lang/String;Lkotlin/time/Duration;Lkotlin/time/Duration;Lkotlin/time/Duration;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowPropertiesModifiedExternally;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getNewTaskQueue ()Ljava/lang/String;
+	public final fun getNewWorkflowExecutionTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getNewWorkflowRunTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getNewWorkflowTaskTimeout-FghU774 ()Lkotlin/time/Duration;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskCompleted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJJLjava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (JJJJLjava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskCompleted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskCompleted;JJJJLjava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskCompleted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskFailed : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun copy (JJJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskFailed;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskFailed;JJJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskFailed;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCause ()Ljava/lang/String;
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getFailureMessage ()Ljava/lang/String;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskScheduled : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public synthetic fun <init> (JJLjava/lang/String;ILkotlin/time/Duration;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()I
+	public final fun component5-FghU774 ()Lkotlin/time/Duration;
+	public final fun copy-jSaE0eg (JJLjava/lang/String;ILkotlin/time/Duration;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskScheduled;
+	public static synthetic fun copy-jSaE0eg$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskScheduled;JJLjava/lang/String;ILkotlin/time/Duration;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskScheduled;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAttempt ()I
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getStartToCloseTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun getTaskQueue ()Ljava/lang/String;
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskStarted : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (JJJLjava/lang/String;Ljava/lang/String;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskStarted;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskStarted;JJJLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskStarted;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getIdentity ()Ljava/lang/String;
+	public final fun getRequestId ()Ljava/lang/String;
+	public final fun getScheduledEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskTimedOut : com/surrealdev/temporal/client/history/TemporalHistoryEvent {
+	public fun <init> (JJJJ)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun copy (JJJJ)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskTimedOut;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskTimedOut;JJJJILjava/lang/Object;)Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowTaskTimedOut;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getEventId ()J
+	public fun getEventType ()Lcom/surrealdev/temporal/client/history/TemporalEventType;
+	public final fun getScheduledEventId ()J
+	public final fun getStartedEventId ()J
+	public fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class com/surrealdev/temporal/client/history/WorkflowHistory {
 	public static final field Companion Lcom/surrealdev/temporal/client/history/WorkflowHistory$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;)V
@@ -1709,17 +3321,17 @@ public final class com/surrealdev/temporal/client/history/WorkflowHistory {
 	public final fun childWorkflowCompletedEvents ()Ljava/util/List;
 	public final fun childWorkflowFailedEvents ()Ljava/util/List;
 	public final fun childWorkflowStartedEvents ()Ljava/util/List;
-	public final fun filterByType ([Lio/temporal/api/enums/v1/EventType;)Ljava/util/List;
-	public final fun getCanceledEvent ()Lio/temporal/api/history/v1/HistoryEvent;
-	public final fun getCompletedEvent ()Lio/temporal/api/history/v1/HistoryEvent;
-	public final fun getContinuedAsNewEvent ()Lio/temporal/api/history/v1/HistoryEvent;
+	public final fun filterByType ([Lcom/surrealdev/temporal/client/history/TemporalEventType;)Ljava/util/List;
+	public final fun getCanceledEvent ()Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCanceled;
+	public final fun getCompletedEvent ()Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionCompleted;
+	public final fun getContinuedAsNewEvent ()Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionContinuedAsNew;
 	public final fun getEvents ()Ljava/util/List;
-	public final fun getFailedEvent ()Lio/temporal/api/history/v1/HistoryEvent;
+	public final fun getFailedEvent ()Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionFailed;
 	public final fun getRunId ()Ljava/lang/String;
 	public final fun getTaskQueue ()Ljava/lang/String;
-	public final fun getTerminatedEvent ()Lio/temporal/api/history/v1/HistoryEvent;
-	public final fun getTimedOutEvent ()Lio/temporal/api/history/v1/HistoryEvent;
-	public final fun getWorkflowExecutionStartedEvent ()Lio/temporal/api/history/v1/HistoryEvent;
+	public final fun getTerminatedEvent ()Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTerminated;
+	public final fun getTimedOutEvent ()Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionTimedOut;
+	public final fun getWorkflowExecutionStartedEvent ()Lcom/surrealdev/temporal/client/history/TemporalHistoryEvent$WorkflowExecutionStarted;
 	public final fun getWorkflowId ()Ljava/lang/String;
 	public final fun getWorkflowType ()Ljava/lang/String;
 	public final fun hasActivityCompleted ()Z
@@ -1749,7 +3361,6 @@ public final class com/surrealdev/temporal/client/history/WorkflowHistory {
 }
 
 public final class com/surrealdev/temporal/client/history/WorkflowHistory$Companion {
-	public final fun fromProto (Ljava/lang/String;Ljava/lang/String;Lio/temporal/api/history/v1/History;)Lcom/surrealdev/temporal/client/history/WorkflowHistory;
 }
 
 public final class com/surrealdev/temporal/common/EncodedTemporalPayloads : java/lang/Iterable, kotlin/jvm/internal/markers/KMappedMarker {
@@ -1806,7 +3417,6 @@ public final class com/surrealdev/temporal/common/RetryPolicy {
 
 public final class com/surrealdev/temporal/common/SearchAttributeEncoder {
 	public static final field INSTANCE Lcom/surrealdev/temporal/common/SearchAttributeEncoder;
-	public final fun encode (Lcom/surrealdev/temporal/common/TypedSearchAttributes;)Ljava/util/Map;
 }
 
 public abstract class com/surrealdev/temporal/common/SearchAttributeKey {
@@ -2372,6 +3982,7 @@ public final class com/surrealdev/temporal/common/exceptions/WorkflowDeadlockExc
 	public static final field Companion Lcom/surrealdev/temporal/common/exceptions/WorkflowDeadlockException$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;[Ljava/lang/StackTraceElement;JJ)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;[Ljava/lang/StackTraceElement;JJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun formatStackTrace ()Ljava/lang/String;
 	public final fun getDetectionTimestamp ()J
 	public fun getMessage ()Ljava/lang/String;
 	public final fun getStackCaptureTimestamp ()J
@@ -2817,7 +4428,6 @@ public abstract interface class com/surrealdev/temporal/workflow/RemoteActivityH
 
 public final class com/surrealdev/temporal/workflow/SuggestContinueAsNewReason : java/lang/Enum {
 	public static final field HISTORY_SIZE_TOO_LARGE Lcom/surrealdev/temporal/workflow/SuggestContinueAsNewReason;
-	public static final field TARGET_WORKER_DEPLOYMENT_VERSION_CHANGED Lcom/surrealdev/temporal/workflow/SuggestContinueAsNewReason;
 	public static final field TOO_MANY_HISTORY_EVENTS Lcom/surrealdev/temporal/workflow/SuggestContinueAsNewReason;
 	public static final field TOO_MANY_UPDATES Lcom/surrealdev/temporal/workflow/SuggestContinueAsNewReason;
 	public static final field UNSPECIFIED Lcom/surrealdev/temporal/workflow/SuggestContinueAsNewReason;
@@ -2850,6 +4460,8 @@ public abstract interface class com/surrealdev/temporal/workflow/WorkflowContext
 	public fun getKey ()Lkotlin/coroutines/CoroutineContext$Key;
 	public abstract fun getSerializer ()Lcom/surrealdev/temporal/serialization/PayloadSerializer;
 	public abstract fun isContinueAsNewSuggested ()Z
+	public abstract fun isReplaying ()Z
+	public abstract fun isTargetWorkerDeploymentVersionChanged ()Z
 	public abstract fun now ()Lkotlin/time/Instant;
 	public abstract fun patched (Ljava/lang/String;)Z
 	public abstract fun randomUuid ()Ljava/lang/String;
@@ -2948,6 +4560,10 @@ public final class com/surrealdev/temporal/workflow/WorkflowInfo {
 	public final fun getWorkflowType ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/workflow/WorkflowRegistrationAttributesKt {
+	public static final fun getStrictWorkflowRegistrationKey ()Lcom/surrealdev/temporal/util/AttributeKey;
 }
 
 public final class com/surrealdev/temporal/workflow/internal/EscapedDispatcherException : java/lang/RuntimeException {

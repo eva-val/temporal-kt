@@ -25,6 +25,9 @@ object TemporalAttributes {
     val NAMESPACE: AttributeKey<String> = AttributeKey.stringKey("temporal.namespace")
     val STATUS: AttributeKey<String> = AttributeKey.stringKey("status")
 
+    // Slot supplier attributes
+    val SLOT_TYPE: AttributeKey<String> = AttributeKey.stringKey("temporal.slot_type")
+
     // Status values for metrics
     const val STATUS_SUCCESS = "success"
     const val STATUS_FAILURE = "failure"

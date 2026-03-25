@@ -277,6 +277,15 @@ interface WorkflowContext :
     val continueAsNewSuggestedReasons: Set<SuggestContinueAsNewReason>
 
     /**
+     * Whether the target worker deployment version has changed since this workflow started.
+     *
+     * When `true`, the workflow should consider continuing-as-new to pick up the new
+     * deployment version. This is relevant when using worker deployment versioning with
+     * pinned workflows that need to be nudged to upgrade.
+     */
+    val isTargetWorkerDeploymentVersionChanged: Boolean
+
+    /**
      * Starts a child workflow and returns a handle to interact with it.
      *
      * This is the low-level method. For easier usage with type inference,
@@ -727,7 +736,6 @@ enum class SuggestContinueAsNewReason {
     HISTORY_SIZE_TOO_LARGE,
     TOO_MANY_HISTORY_EVENTS,
     TOO_MANY_UPDATES,
-    TARGET_WORKER_DEPLOYMENT_VERSION_CHANGED,
 }
 
 /**

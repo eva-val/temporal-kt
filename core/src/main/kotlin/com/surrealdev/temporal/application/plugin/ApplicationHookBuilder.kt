@@ -9,6 +9,8 @@ import com.surrealdev.temporal.application.plugin.hooks.ApplicationShutdown
 import com.surrealdev.temporal.application.plugin.hooks.ApplicationShutdownContext
 import com.surrealdev.temporal.application.plugin.hooks.ApplicationStartupFailed
 import com.surrealdev.temporal.application.plugin.hooks.ApplicationStartupFailedContext
+import com.surrealdev.temporal.application.plugin.hooks.SlotSupplierMetricsContext
+import com.surrealdev.temporal.application.plugin.hooks.SlotSupplierMetricsSampled
 import com.surrealdev.temporal.application.plugin.hooks.WorkerStarted
 import com.surrealdev.temporal.application.plugin.hooks.WorkerStartedContext
 import com.surrealdev.temporal.application.plugin.hooks.WorkerStopped
@@ -91,5 +93,17 @@ class ApplicationHookBuilder internal constructor(
      */
     fun onWorkerStopped(handler: suspend (WorkerStoppedContext) -> Unit) {
         pluginBuilder.on(WorkerStopped, handler)
+    }
+
+    /**
+     * Registers a handler for slot supplier metrics samples.
+     *
+     * Called on every grant loop tick (typically every 50ms) by JvmResourceBased
+     * slot suppliers with current resource measurements and PID controller outputs.
+     *
+     * This is a **blocking** (non-suspend) hook — handlers must return quickly.
+     */
+    fun onSlotSupplierMetrics(handler: (SlotSupplierMetricsContext) -> Unit) {
+        pluginBuilder.on(SlotSupplierMetricsSampled, handler)
     }
 }

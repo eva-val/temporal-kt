@@ -99,18 +99,51 @@ embeddedTemporal(configure = {
 
 Each task queue can be configured independently.
 
-### Concurrency Limits
+### Slot Suppliers
 
-Control how many workflows and activities run concurrently.
+Control how execution slots are managed for workflows and activities.
 
 ```kotlin
 taskQueue("my-queue") {
-    maxConcurrentWorkflows = 200    // Default: 200
-    maxConcurrentActivities = 200   // Default: 200
+    // Fixed concurrency (default)
+    workflowSlotSupplier = SlotSupplier.FixedSize(200)
+    activitySlotSupplier = SlotSupplier.FixedSize(200)
+
+    // JVM resource-based: dynamically scales with heap and CPU
+    activitySlotSupplier = SlotSupplier.JvmResourceBased(
+        targetMemoryUsage = 0.8,  // Deny slots when old gen > 80%
+        targetCpuUsage = 0.8,     // Deny slots when process CPU > 80%
+    )
+
+    // Mix and match within a single worker
+    workflowSlotSupplier = SlotSupplier.FixedSize(200)
+    activitySlotSupplier = SlotSupplier.JvmResourceBased()
+    localActivitySlotSupplier = SlotSupplier.JvmResourceBased()
 
     workflow<MyWorkflow>()
     activity(MyActivity())
 }
+```
+
+**`JvmResourceBased`** uses PID controllers to monitor JVM old gen heap usage and per-process CPU,
+dynamically granting or denying slots based on resource pressure. Multiple workers in the same
+JVM share a single resource monitor and naturally coordinate.
+
+For advanced tuning of the PID controller:
+
+```kotlin
+activitySlotSupplier = SlotSupplier.JvmResourceBased(
+    targetMemoryUsage = 0.8,
+    targetCpuUsage = 0.8,
+    minimumSlots = 5,        // Always grant at least 5 slots
+    maximumSlots = 500,      // Hard upper bound
+    rampThrottleMs = 100,    // Slower ramp-up
+    pidTuning = SlotSupplier.JvmResourceBased.PidTuning(
+        memoryPGain = 5.0,   // Proportional gain (default)
+        memoryDGain = 1.0,   // Derivative gain (default)
+        // ...
+    ),
+)
 ```
 
 ### Heartbeat Throttling
@@ -303,7 +336,7 @@ fun TemporalApplication.ordersModule() {
     }
 
     taskQueue("orders-queue") {
-        maxConcurrentWorkflows = 100
+        workflowSlotSupplier = SlotSupplier.FixedSize(100)
         workflow<OrderWorkflow>()
         activity(OrderActivity())
     }
@@ -311,7 +344,7 @@ fun TemporalApplication.ordersModule() {
 
 fun TemporalApplication.paymentsModule() {
     taskQueue("payments-queue") {
-        maxConcurrentActivities = 50
+        activitySlotSupplier = SlotSupplier.FixedSize(50)
         workflow<PaymentWorkflow>()
         activity(PaymentActivity())
     }
@@ -411,8 +444,9 @@ embeddedTemporal(module = {
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `namespace` | String? | null | Override application namespace |
-| `maxConcurrentWorkflows` | Int | 200 | Max concurrent workflow executions |
-| `maxConcurrentActivities` | Int | 200 | Max concurrent activity executions |
+| `workflowSlotSupplier` | SlotSupplier | FixedSize(200) | Slot supplier for workflow tasks |
+| `activitySlotSupplier` | SlotSupplier | FixedSize(200) | Slot supplier for activity tasks |
+| `localActivitySlotSupplier` | SlotSupplier | FixedSize(200) | Slot supplier for local activities |
 | `shutdownGracePeriodMs` | Long | 10,000 | Shutdown grace period |
 | `shutdownForceTimeoutMs` | Long | 5,000 | Force shutdown timeout |
 | `maxHeartbeatThrottleIntervalMs` | Long | 60,000 | Max heartbeat throttle interval |

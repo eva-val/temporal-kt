@@ -230,6 +230,7 @@ internal class WorkflowExecutor(
                     historySizeBytes = activation.historySizeBytes,
                     continueAsNewSuggested = activation.continueAsNewSuggested,
                     suggestContinueAsNewReasons = activation.suggestContinueAsNewReasonsList,
+                    targetWorkerDeploymentVersionChanged = activation.targetWorkerDeploymentVersionChanged,
                 )
 
                 // Handle eviction early - it must be the only job and should not process other stages

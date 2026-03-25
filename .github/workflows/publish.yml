@@ -49,12 +49,6 @@ jobs:
             gradle-task: copyMacosAarch64NativeLib
             artifact-name: native-libs-macos-aarch64
             artifact-path: core-bridge/build/native-libs/native/macos-aarch64
-          - os: macos-15-intel
-            platform: macos-x86_64
-            rust-targets: x86_64-apple-darwin
-            gradle-task: copyMacosx8664NativeLib
-            artifact-name: native-libs-macos-x86_64
-            artifact-path: core-bridge/build/native-libs/native/macos-x86_64
           - os: windows-latest
             platform: windows
             rust-targets: x86_64-pc-windows-msvc
@@ -145,10 +139,6 @@ jobs:
             artifact-name: native-libs-macos-aarch64
             artifact-path: core-bridge/build/native-libs/native/macos-aarch64
           # These machines are really jank with github, revisit in future when microsoft fixes it maybe.
-          #- os: macos-15-intel
-          #  platform: macos-x86_64
-          #  artifact-name: native-libs-macos-x86_64
-          #  artifact-path: core-bridge/build/native-libs/native/macos-x86_64
           #- os: windows-latest
           #  platform: windows
           #  artifact-name: native-libs-windows
@@ -237,12 +227,6 @@ jobs:
           name: native-libs-macos-aarch64
           path: core-bridge/build/native-libs/native/macos-aarch64
 
-      - name: Download macOS x86_64 native lib
-        uses: actions/download-artifact@v4
-        with:
-          name: native-libs-macos-x86_64
-          path: core-bridge/build/native-libs/native/macos-x86_64
-
       - name: Download Windows native lib
         uses: actions/download-artifact@v4
         with:
@@ -257,7 +241,6 @@ jobs:
           echo "Expected structure:"
           echo "  native/linux-x86_64-gnu/libtemporalio_sdk_core_c_bridge.so"
           echo "  native/linux-aarch64-gnu/libtemporalio_sdk_core_c_bridge.so"
-          echo "  native/macos-x86_64/libtemporalio_sdk_core_c_bridge.dylib"
           echo "  native/macos-aarch64/libtemporalio_sdk_core_c_bridge.dylib"
           echo "  native/windows-x86_64/temporalio_sdk_core_c_bridge.dll"
 
@@ -281,7 +264,6 @@ jobs:
           ./gradlew :core-bridge:jar \
             :core-bridge:linuxx8664gnuNativeJar \
             :core-bridge:linuxaarch64gnuNativeJar \
-            :core-bridge:macosx8664NativeJar \
             :core-bridge:macosaarch64NativeJar \
             :core-bridge:windowsx8664NativeJar \
             -PskipNativeBuild=true --no-daemon
@@ -323,7 +305,6 @@ jobs:
           ./gradlew jar \
             :core-bridge:linuxx8664gnuNativeJar \
             :core-bridge:linuxaarch64gnuNativeJar \
-            :core-bridge:macosx8664NativeJar \
             :core-bridge:macosaarch64NativeJar \
             :core-bridge:windowsx8664NativeJar \
             -PskipNativeBuild=true --no-configuration-cache --no-daemon

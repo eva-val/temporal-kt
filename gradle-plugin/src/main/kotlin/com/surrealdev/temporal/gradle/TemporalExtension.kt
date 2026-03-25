@@ -100,7 +100,6 @@ abstract class NativeExtension
          *
          * Valid classifiers:
          * - `macos-aarch64` - macOS Apple Silicon
-         * - `macos-x86_64` - macOS Intel
          * - `linux-x86_64-gnu` - Linux x86_64 (glibc)
          * - `linux-aarch64-gnu` - Linux ARM64 (glibc)
          * - `windows-x86_64` - Windows x86_64

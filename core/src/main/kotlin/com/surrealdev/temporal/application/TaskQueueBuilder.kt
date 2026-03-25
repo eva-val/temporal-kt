@@ -7,6 +7,7 @@ import com.surrealdev.temporal.application.plugin.HookRegistry
 import com.surrealdev.temporal.application.plugin.HookRegistryImpl
 import com.surrealdev.temporal.application.plugin.PluginPipeline
 import com.surrealdev.temporal.core.CorePollerBehavior
+import com.surrealdev.temporal.core.SlotSupplier
 import com.surrealdev.temporal.internal.ZombieEvictionConfig
 import com.surrealdev.temporal.serialization.payloadCodecOrNull
 import com.surrealdev.temporal.serialization.payloadSerializer
@@ -61,16 +62,25 @@ class TaskQueueBuilder internal constructor(
     var namespace: String? = null
 
     /**
-     * Maximum number of concurrent workflow executions.
-     * This is a logical limit enforced via semaphore.
+     * Slot supplier for workflow task executions.
+     * Controls both the Core SDK's workflow slot supplier and the application-level concurrency limit.
      */
-    var maxConcurrentWorkflows: Int = 200
+    var workflowSlotSupplier: SlotSupplier = SlotSupplier.FixedSize(10)
 
     /**
-     * Maximum number of concurrent activity executions.
-     * This is a logical limit enforced via semaphore.
+     * Slot supplier for activity executions.
+     * Controls both the Core SDK's activity slot supplier and the application-level concurrency limit.
      */
-    var maxConcurrentActivities: Int = 200
+    var activitySlotSupplier: SlotSupplier = SlotSupplier.FixedSize(10)
+
+    /**
+     * Slot supplier for local activity executions.
+     * Controls the Core SDK's local activity slot supplier.
+     *
+     * Local activities are short-lived activities that execute in the workflow worker process
+     * rather than going through the task queue. They share the same resource pool as the worker.
+     */
+    var localActivitySlotSupplier: SlotSupplier = SlotSupplier.FixedSize(10)
 
     /**
      * Grace period for shutdown to wait for polling jobs to complete gracefully.
@@ -79,13 +89,6 @@ class TaskQueueBuilder internal constructor(
      * Default: 10,000ms (10 seconds)
      */
     var shutdownGracePeriodMs: Long = 10_000L
-
-    /**
-     * Additional timeout after force cancellation to wait for cleanup.
-     *
-     * Default: 5,000ms (5 seconds)
-     */
-    var shutdownForceTimeoutMs: Long = 5_000L
 
     /**
      * Maximum interval for throttling activity heartbeats.
@@ -378,8 +381,9 @@ class TaskQueueBuilder internal constructor(
             namespace = namespace,
             workflows = workflows.toList(),
             activities = activities.toList(),
-            maxConcurrentWorkflows = maxConcurrentWorkflows,
-            maxConcurrentActivities = maxConcurrentActivities,
+            workflowSlotSupplier = workflowSlotSupplier,
+            activitySlotSupplier = activitySlotSupplier,
+            localActivitySlotSupplier = localActivitySlotSupplier,
             attributes = attributes,
             hookRegistry = hookRegistry,
             shutdownGracePeriodMs = shutdownGracePeriodMs,

@@ -47,7 +47,6 @@ If you prefer not to use the plugin, specify your platform directly:
 |-------------------------------|---------------------|
 | Linux x86_64                  | `linux-x86_64-gnu`  |
 | Linux aarch64                 | `linux-aarch64-gnu` |
-| macOS x86_64                  | `macos-x86_64`      |
 | macOS aarch64 (Apple Silicon) | `macos-aarch64`     |
 | Windows x86_64                | `windows-x86_64`    |
 

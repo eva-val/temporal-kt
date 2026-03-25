@@ -205,6 +205,24 @@ val OpenTelemetryPlugin =
                         m.workerStartedCounter.add(1, attrs)
                     }
                 }
+
+                onSlotSupplierMetrics { ctx ->
+                    metrics?.let { m ->
+                        val attrs =
+                            Attributes.of(
+                                TemporalAttributes.TASK_QUEUE,
+                                ctx.taskQueue,
+                                TemporalAttributes.SLOT_TYPE,
+                                ctx.slotType,
+                            )
+                        m.slotMemoryUsage.set(ctx.memoryUsage, attrs)
+                        m.slotCpuUsage.set(ctx.cpuLoad, attrs)
+                        m.slotMemoryPidOutput.set(ctx.memoryPidOutput, attrs)
+                        m.slotCpuPidOutput.set(ctx.cpuPidOutput, attrs)
+                        m.slotActiveCount.set(ctx.activeSlots.toLong(), attrs)
+                        m.slotPendingCount.set(ctx.pendingReserves.toLong(), attrs)
+                    }
+                }
             }
         }
 

@@ -140,6 +140,13 @@ internal class WorkflowState(
         private set
 
     /**
+     * Whether the target worker deployment version has changed since this workflow started.
+     * When true, the workflow should consider continuing-as-new to pick up the new version.
+     */
+    var targetWorkerDeploymentVersionChanged: Boolean = false
+        private set
+
+    /**
      * Whether the main workflow coroutine has completed (successfully or with failure).
      * Used to warn when handlers try to schedule new work after completion.
      */
@@ -238,6 +245,7 @@ internal class WorkflowState(
         historySizeBytes: Long = 0,
         continueAsNewSuggested: Boolean = false,
         suggestContinueAsNewReasons: List<ProtoSuggestReason> = emptyList(),
+        targetWorkerDeploymentVersionChanged: Boolean = false,
     ) {
         if (timestamp != null) {
             val javaInstant = java.time.Instant.ofEpochSecond(timestamp.seconds, timestamp.nanos.toLong())
@@ -248,6 +256,7 @@ internal class WorkflowState(
         this.historySizeBytes = historySizeBytes
         this.continueAsNewSuggested = continueAsNewSuggested
         this.suggestContinueAsNewReasons = suggestContinueAsNewReasons.mapTo(mutableSetOf()) { it.toDomain() }
+        this.targetWorkerDeploymentVersionChanged = targetWorkerDeploymentVersionChanged
     }
 
     /**
@@ -910,10 +919,6 @@ private fun ProtoSuggestReason.toDomain(): SuggestContinueAsNewReason =
 
         ProtoSuggestReason.SUGGEST_CONTINUE_AS_NEW_REASON_TOO_MANY_UPDATES -> {
             SuggestContinueAsNewReason.TOO_MANY_UPDATES
-        }
-
-        ProtoSuggestReason.SUGGEST_CONTINUE_AS_NEW_REASON_TARGET_WORKER_DEPLOYMENT_VERSION_CHANGED -> {
-            SuggestContinueAsNewReason.TARGET_WORKER_DEPLOYMENT_VERSION_CHANGED
         }
 
         else -> {
