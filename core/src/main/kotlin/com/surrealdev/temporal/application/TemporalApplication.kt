@@ -50,6 +50,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import org.slf4j.LoggerFactory
@@ -170,7 +171,7 @@ open class TemporalApplication internal constructor(
             )
             // Create the runtime, with Core metrics bridge if OTel plugin provided a Meter
             val coreMetricsMeter = attributes.getOrNull(CoreMetricsMeterKey)
-            val rt = TemporalRuntime.create(coreMetricsMeter)
+            val rt = TemporalRuntime.create(coreMetricsMeter, config.workerHeartbeatIntervalMs)
             runtime = rt
 
             val client =
@@ -201,21 +202,21 @@ open class TemporalApplication internal constructor(
                     createJvmResourceMonitor() as com.surrealdev.temporal.core.internal.JvmResourceMonitor
             }
 
-            // Create and start workers for each task queue
+            // Resolve default identity once
+            val defaultIdentity by lazy {
+                val pid = ProcessHandle.current().pid()
+                val hostname =
+                    java.net.InetAddress
+                        .getLocalHost()
+                        .hostName
+                "$pid@$hostname"
+            }
+
+            // Create workers for each task queue
+            val coreWorkers = mutableListOf<TemporalWorker>()
             for (taskQueueConfig in taskQueues) {
                 val effectiveNamespace = taskQueueConfig.namespace ?: config.connection.namespace
-
-                // Resolve identity: user-provided > default (pid@hostname)
-                val effectiveIdentity =
-                    taskQueueConfig.workerIdentity
-                        ?: run {
-                            val pid = ProcessHandle.current().pid()
-                            val hostname =
-                                java.net.InetAddress
-                                    .getLocalHost()
-                                    .hostName
-                            "$pid@$hostname"
-                        }
+                val effectiveIdentity = taskQueueConfig.workerIdentity ?: defaultIdentity
 
                 // Create the core bridge worker
                 val coreWorker =
@@ -235,6 +236,8 @@ open class TemporalApplication internal constructor(
                                 defaultHeartbeatThrottleIntervalMs = taskQueueConfig.defaultHeartbeatThrottleIntervalMs,
                                 workflowPollerBehavior = taskQueueConfig.workflowPollerBehavior,
                                 activityPollerBehavior = taskQueueConfig.activityPollerBehavior,
+                                nexusPollerBehavior = taskQueueConfig.nexusPollerBehavior,
+                                gracefulShutdownPeriodMs = taskQueueConfig.shutdownGracePeriodMs,
                                 maxActivitiesPerSecond = taskQueueConfig.maxActivitiesPerSecond,
                                 maxTaskQueueActivitiesPerSecond = taskQueueConfig.maxTaskQueueActivitiesPerSecond,
                                 workerIdentity = effectiveIdentity,
@@ -244,8 +247,10 @@ open class TemporalApplication internal constructor(
                                 nondeterminismAsWorkflowFail = taskQueueConfig.nondeterminismAsWorkflowFail,
                                 nondeterminismAsWorkflowFailForTypes =
                                     taskQueueConfig.nondeterminismAsWorkflowFailForTypes,
+                                buildId = config.buildId,
                             ),
                     )
+                coreWorkers.add(coreWorker)
 
                 // Wrap in ManagedWorker
                 val managedWorker =
@@ -261,17 +266,28 @@ open class TemporalApplication internal constructor(
                     )
 
                 workers[taskQueueConfig.name] = managedWorker
-                managedWorker.start()
+            }
 
+            // Validate all workers in parallel (each calls describe_namespace RPC)
+            coroutineScope {
+                coreWorkers.map { worker -> launch { worker.validate() } }
+            }
+
+            // Start all workers and fire hooks
+            for ((taskQueueConfig, managedWorker) in taskQueues.zip(workers.values)) {
+                managedWorker.start()
                 hookRegistry.call(
                     WorkerStarted,
-                    WorkerStartedContext(taskQueueConfig.name, effectiveNamespace),
+                    WorkerStartedContext(
+                        taskQueueConfig.name,
+                        taskQueueConfig.namespace ?: config.connection.namespace,
+                    ),
                 )
             }
 
             // Wait for all workers to be ready (first poll completed)
-            for (worker in workers.values) {
-                worker.awaitReady()
+            coroutineScope {
+                workers.values.map { worker -> launch { worker.awaitReady() } }
             }
         } catch (e: Throwable) {
             hookRegistry.call(
@@ -565,6 +581,8 @@ internal data class TemporalApplicationConfig(
     val connection: ConnectionConfig,
     val deployment: WorkerDeploymentOptions? = null,
     val shutdown: ShutdownConfig = ShutdownConfig(),
+    val workerHeartbeatIntervalMs: Long = 60_000L,
+    val buildId: String = "",
 )
 
 /**
@@ -679,6 +697,11 @@ internal data class TaskQueueConfig(
      * to the Temporal server for activity tasks.
      */
     val activityPollerBehavior: CorePollerBehavior = CorePollerBehavior.SimpleMaximum(5),
+    /**
+     * Poller behavior for nexus tasks. Controls how many concurrent gRPC long-polls are issued
+     * to the Temporal server for nexus tasks.
+     */
+    val nexusPollerBehavior: CorePollerBehavior = CorePollerBehavior.SimpleMaximum(2),
     /**
      * Maximum number of activities per second this worker will execute. Use to protect downstream
      * services from burst load. 0.0 means no limit.

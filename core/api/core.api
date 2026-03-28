@@ -316,6 +316,7 @@ public final class com/surrealdev/temporal/application/TaskQueueBuilder : com/su
 	public final fun getMaxHeartbeatThrottleIntervalMs ()J
 	public final fun getMaxTaskQueueActivitiesPerSecond ()D
 	public final fun getNamespace ()Ljava/lang/String;
+	public final fun getNexusPollerBehavior ()Lcom/surrealdev/temporal/core/CorePollerBehavior;
 	public final fun getNondeterminismAsWorkflowFail ()Z
 	public final fun getNondeterminismAsWorkflowFailForTypes ()Ljava/util/List;
 	public final fun getNonstickyToStickyPollRatio ()F
@@ -339,6 +340,7 @@ public final class com/surrealdev/temporal/application/TaskQueueBuilder : com/su
 	public final fun setMaxHeartbeatThrottleIntervalMs (J)V
 	public final fun setMaxTaskQueueActivitiesPerSecond (D)V
 	public final fun setNamespace (Ljava/lang/String;)V
+	public final fun setNexusPollerBehavior (Lcom/surrealdev/temporal/core/CorePollerBehavior;)V
 	public final fun setNondeterminismAsWorkflowFail (Z)V
 	public final fun setNondeterminismAsWorkflowFailForTypes (Ljava/util/List;)V
 	public final fun setNonstickyToStickyPollRatio (F)V
@@ -392,8 +394,12 @@ public final class com/surrealdev/temporal/application/TemporalApplicationBuilde
 	public final fun deployment (Lcom/surrealdev/temporal/core/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/core/VersioningBehavior;)V
 	public final fun deployment (Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun deployment$default (Lcom/surrealdev/temporal/application/TemporalApplicationBuilder;Lcom/surrealdev/temporal/core/WorkerDeploymentVersion;ZLcom/surrealdev/temporal/core/VersioningBehavior;ILjava/lang/Object;)V
+	public final fun getBuildId ()Ljava/lang/String;
 	public final fun getDispatcher ()Lkotlinx/coroutines/CoroutineDispatcher;
+	public final fun getWorkerHeartbeatIntervalMs ()J
+	public final fun setBuildId (Ljava/lang/String;)V
 	public final fun setDispatcher (Lkotlinx/coroutines/CoroutineDispatcher;)V
+	public final fun setWorkerHeartbeatIntervalMs (J)V
 	public final fun shutdown (Lkotlin/jvm/functions/Function1;)V
 }
 

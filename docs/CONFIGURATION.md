@@ -85,6 +85,26 @@ embeddedTemporal(configure = {
 - `PINNED` - Workflow stays on the version it started with
 - `AUTO_UPGRADE` - Workflow automatically upgrades to latest version
 
+### Worker Heartbeat
+
+Workers periodically send heartbeat RPCs to the server, reporting liveness, slot usage, poller counts, and resource metrics. This enables server-side load balancing and worker tracking in the Temporal UI.
+
+```kotlin
+embeddedTemporal(configure = {
+    workerHeartbeatIntervalMs = 60_000L  // Default: 60s. Set to 0 to disable.
+})
+```
+
+### Build ID
+
+When not using deployment versioning, you can set a build ID to identify your worker build in the Temporal UI and heartbeat data.
+
+```kotlin
+embeddedTemporal(configure = {
+    buildId = "v1.2.3"  // Default: empty string
+})
+```
+
 ### Dispatcher Configuration
 
 Override the default coroutine dispatcher.
@@ -145,6 +165,28 @@ activitySlotSupplier = SlotSupplier.JvmResourceBased(
     ),
 )
 ```
+
+### Poller Behavior
+
+Control how many concurrent gRPC long-polls workers issue to the server. More pollers means faster task pickup, but uses more connections.
+
+```kotlin
+taskQueue("my-queue") {
+    // Fixed number of pollers (default)
+    workflowPollerBehavior = CorePollerBehavior.SimpleMaximum(5)
+    activityPollerBehavior = CorePollerBehavior.SimpleMaximum(5)
+    nexusPollerBehavior = CorePollerBehavior.SimpleMaximum(2)
+
+    // Autoscaling: dynamically adjusts poller count based on server feedback
+    workflowPollerBehavior = CorePollerBehavior.Autoscaling(
+        minimum = 1,
+        maximum = 20,
+        initial = 5,
+    )
+}
+```
+
+The `nonstickyToStickyPollRatio` (default `0.2`) controls how workflow pollers are split between the sticky queue (cached workflows) and the nonsticky queue (new workflows). Only applies to `SimpleMaximum`.
 
 ### Heartbeat Throttling
 
@@ -439,20 +481,36 @@ embeddedTemporal(module = {
 | `gracePeriodMs` | Long | 10,000 | Grace period for graceful shutdown |
 | `forceTimeoutMs` | Long | 5,000 | Timeout after force cancellation |
 
+### TemporalApplicationBuilder
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `workerHeartbeatIntervalMs` | Long | 60,000 | Worker heartbeat interval (0 = disabled) |
+| `buildId` | String | `""` | Build ID for worker identification (when not using deployment versioning) |
+| `dispatcher` | CoroutineDispatcher | Dispatchers.Default | Coroutine dispatcher for polling |
+
 ### TaskQueueBuilder
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `namespace` | String? | null | Override application namespace |
-| `workflowSlotSupplier` | SlotSupplier | FixedSize(200) | Slot supplier for workflow tasks |
-| `activitySlotSupplier` | SlotSupplier | FixedSize(200) | Slot supplier for activity tasks |
-| `localActivitySlotSupplier` | SlotSupplier | FixedSize(200) | Slot supplier for local activities |
-| `shutdownGracePeriodMs` | Long | 10,000 | Shutdown grace period |
-| `shutdownForceTimeoutMs` | Long | 5,000 | Force shutdown timeout |
+| `workflowSlotSupplier` | SlotSupplier | FixedSize(10) | Slot supplier for workflow tasks |
+| `activitySlotSupplier` | SlotSupplier | FixedSize(10) | Slot supplier for activity tasks |
+| `localActivitySlotSupplier` | SlotSupplier | FixedSize(10) | Slot supplier for local activities |
+| `workflowPollerBehavior` | CorePollerBehavior | SimpleMaximum(5) | Workflow poller concurrency |
+| `activityPollerBehavior` | CorePollerBehavior | SimpleMaximum(5) | Activity poller concurrency |
+| `nexusPollerBehavior` | CorePollerBehavior | SimpleMaximum(2) | Nexus poller concurrency |
+| `nonstickyToStickyPollRatio` | Float | 0.2 | Fraction of workflow pollers for nonsticky queue |
+| `stickyQueueScheduleToStartTimeoutMs` | Long | 10,000 | Sticky queue timeout before failover |
+| `shutdownGracePeriodMs` | Long | 10,000 | Shutdown grace period (also controls Core SDK activity cancellation) |
 | `maxHeartbeatThrottleIntervalMs` | Long | 60,000 | Max heartbeat throttle interval |
 | `defaultHeartbeatThrottleIntervalMs` | Long | 30,000 | Default heartbeat throttle interval |
+| `maxActivitiesPerSecond` | Double | 0.0 | Per-worker activity rate limit (0 = no limit) |
+| `maxTaskQueueActivitiesPerSecond` | Double | 0.0 | Server-enforced activity rate limit (0 = no limit) |
+| `maxCachedWorkflows` | Int | 1,000 | Sticky cache size |
+| `workerIdentity` | String? | null | Worker identity string (default: pid@hostname) |
 | `workflowDeadlockTimeoutMs` | Long | 2,000 | Deadlock detection timeout (0 = disabled) |
-| `forceExitTimeout` | Duration | 1 minute | Force exit on stuck shutdown |
+| `nondeterminismAsWorkflowFail` | Boolean | false | Report nondeterminism as workflow failure |
 | `zombieEviction` | ZombieEvictionConfig | (see below) | Zombie thread handling |
 
 ### ZombieEvictionConfig

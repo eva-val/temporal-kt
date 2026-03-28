@@ -29,6 +29,22 @@ class TemporalApplicationBuilder
         private var shutdownConfig: ShutdownConfig = ShutdownConfig()
 
         /**
+         * Interval in milliseconds at which workers send heartbeat RPCs to the server.
+         * Heartbeats report worker liveness, capacity, slot usage, and poller stats.
+         *
+         * Default: 60,000ms (60 seconds). Set to 0 to disable.
+         */
+        var workerHeartbeatIntervalMs: Long = 60_000L
+
+        /**
+         * Build ID identifying this worker build, sent to the server in heartbeats
+         * and visible in the Temporal UI. Only used when no deployment options are configured.
+         *
+         * Default: empty string (no build identifier).
+         */
+        var buildId: String = ""
+
+        /**
          * Sets the base dispatcher for this application.
          *
          * This dispatcher is used for polling and coroutine orchestration.
@@ -139,6 +155,8 @@ class TemporalApplicationBuilder
                     connection = connectionConfig,
                     deployment = deploymentOptions,
                     shutdown = shutdownConfig,
+                    workerHeartbeatIntervalMs = workerHeartbeatIntervalMs,
+                    buildId = buildId,
                 )
             val application = TemporalApplication(config, effectiveContext)
 

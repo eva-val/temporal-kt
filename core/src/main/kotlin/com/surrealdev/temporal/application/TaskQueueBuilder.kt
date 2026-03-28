@@ -139,6 +139,14 @@ class TaskQueueBuilder internal constructor(
     var activityPollerBehavior: CorePollerBehavior = CorePollerBehavior.SimpleMaximum(5)
 
     /**
+     * Poller behavior for nexus tasks. Controls how many concurrent gRPC long-polls are issued
+     * to the Temporal server for nexus tasks.
+     *
+     * Default: [CorePollerBehavior.SimpleMaximum] with 2 pollers
+     */
+    var nexusPollerBehavior: CorePollerBehavior = CorePollerBehavior.SimpleMaximum(2)
+
+    /**
      * Maximum number of activities per second this worker will execute. Use to protect downstream
      * services from burst load. 0.0 means no limit.
      *
@@ -396,6 +404,7 @@ class TaskQueueBuilder internal constructor(
             codec = payloadCodecOrNull(),
             workflowPollerBehavior = workflowPollerBehavior,
             activityPollerBehavior = activityPollerBehavior,
+            nexusPollerBehavior = nexusPollerBehavior,
             maxActivitiesPerSecond = maxActivitiesPerSecond,
             maxTaskQueueActivitiesPerSecond = maxTaskQueueActivitiesPerSecond,
             maxCachedWorkflows = maxCachedWorkflows,

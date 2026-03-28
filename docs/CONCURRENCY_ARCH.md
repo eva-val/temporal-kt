@@ -161,6 +161,17 @@ Key concurrency settings per task queue:
 Slot suppliers can be `FixedSize(n)` for a simple concurrency limit, or `JvmResourceBased(...)` for
 adaptive resource-based scaling using PID controllers that monitor JVM heap and CPU.
 
+### Poller Behavior
+
+| Setting                        | Default            | Description                                    |
+|--------------------------------|--------------------|------------------------------------------------|
+| `workflowPollerBehavior`       | `SimpleMaximum(5)` | Concurrent gRPC long-polls for workflow tasks   |
+| `activityPollerBehavior`       | `SimpleMaximum(5)` | Concurrent gRPC long-polls for activity tasks   |
+| `nexusPollerBehavior`          | `SimpleMaximum(2)` | Concurrent gRPC long-polls for nexus tasks      |
+| `nonstickyToStickyPollRatio`   | `0.2`              | Fraction of workflow pollers for nonsticky queue |
+
+Pollers are managed internally by the Rust Core SDK. Each worker has one Kotlin-side poll loop per task type, but Core SDK spawns multiple internal Tokio tasks to issue concurrent gRPC long-polls. Use `CorePollerBehavior.Autoscaling(min, max, initial)` for dynamic scaling based on server feedback.
+
 ### Deadlock Detection
 
 | Setting                     | Default | Description                                            |
