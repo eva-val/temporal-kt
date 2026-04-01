@@ -135,7 +135,7 @@ object PluginFrameworkExamples {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "default"
                 }
             }
@@ -153,7 +153,7 @@ object PluginFrameworkExamples {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "default"
                 }
             }
@@ -248,7 +248,7 @@ object PluginFrameworkExamples {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "default"
                 }
             }

@@ -68,7 +68,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -90,7 +90,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -111,7 +111,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -156,7 +156,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -207,7 +207,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -235,7 +235,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -271,7 +271,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -313,7 +313,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -350,7 +350,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -371,7 +371,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -397,7 +397,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -445,7 +445,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -472,7 +472,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }
@@ -491,7 +491,7 @@ class PluginFrameworkTest {
         val app =
             TemporalApplication {
                 connection {
-                    target = "http://localhost:7233"
+                    target = "localhost:7233"
                     namespace = "test"
                 }
             }

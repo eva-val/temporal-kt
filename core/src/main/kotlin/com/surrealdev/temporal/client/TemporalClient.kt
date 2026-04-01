@@ -191,7 +191,7 @@ interface TemporalClient {
          * Example with API key:
          * ```kotlin
          * val client = TemporalClient.connect {
-         *     target = "https://myns.abc123.tmprl.cloud:7233"
+         *     target = "myns.abc123.tmprl.cloud:7233"
          *     namespace = "myns.abc123"
          *     apiKey = System.getenv("TEMPORAL_API_KEY")
          * }
@@ -200,7 +200,7 @@ interface TemporalClient {
          * Example with plugins:
          * ```kotlin
          * val client = TemporalClient.connect {
-         *     target = "http://localhost:7233"
+         *     target = "localhost:7233"
          *     install(SerializationPlugin) { json { prettyPrint = true } }
          *     install(CodecPlugin) { compression() }
          *     install(MyPlugin) { enabled = true }
@@ -227,6 +227,7 @@ interface TemporalClient {
                     namespace = config.namespace,
                     tls = config.tls,
                     apiKey = config.apiKey,
+                    tlsDisabled = config.tlsDisabled,
                 )
 
             return ConnectedTemporalClient(
@@ -519,7 +520,7 @@ class TemporalClientImpl internal constructor(
  * Example:
  * ```kotlin
  * val client = TemporalClient.connect {
- *     target = "https://myns.abc123.tmprl.cloud:7233"
+ *     target = "myns.abc123.tmprl.cloud:7233"
  *     namespace = "myns.abc123"
  *     apiKey = System.getenv("TEMPORAL_API_KEY")
  * }
@@ -527,17 +528,20 @@ class TemporalClientImpl internal constructor(
  */
 @TemporalDsl
 class TemporalClientConfig : PluginPipeline {
-    /** Target address of the Temporal service (e.g., "http://localhost:7233" or "https://myns.tmprl.cloud:7233"). */
-    var target: String = "http://localhost:7233"
+    /** Target address of the Temporal service (e.g., "localhost:7233" or "myns.tmprl.cloud:7233"). Scheme is optional. */
+    var target: String = "localhost:7233"
 
     /** Namespace to connect to. */
     var namespace: String = "default"
 
-    /** TLS configuration. If null and target uses https://, TLS is auto-enabled with system CAs. */
+    /** TLS configuration. If null and target uses https:// or apiKey is set, TLS is auto-enabled with system CAs. */
     var tls: TlsConfig? = null
 
-    /** API key for Temporal Cloud authentication (alternative to mTLS). */
+    /** API key for Temporal Cloud authentication (alternative to mTLS). When set, TLS is auto-enabled. */
     var apiKey: String? = null
+
+    /** Explicitly disable TLS even when an API key is set. Useful for testing through proxies. */
+    var tlsDisabled: Boolean = false
 
     // PluginPipeline implementation
     override val attributes: Attributes = Attributes(concurrent = false)

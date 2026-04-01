@@ -20,7 +20,7 @@ import kotlinx.coroutines.Job
 internal fun createStubApplication(): TemporalApplication =
     TemporalApplication {
         connection {
-            target = "http://localhost:7233"
+            target = "localhost:7233"
             namespace = "test"
         }
     }

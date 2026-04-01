@@ -11,7 +11,7 @@ import java.io.File
  * ```yaml
  * temporal:
  *   connection:
- *     target: "https://myns.abc123.tmprl.cloud:7233"
+ *     target: "myns.abc123.tmprl.cloud:7233"
  *     namespace: "myns.abc123"
  *     tls:
  *       clientCertPath: "/path/to/client.pem"
@@ -95,7 +95,7 @@ data class TlsYamlConfig(
  * Example YAML:
  * ```yaml
  * connection:
- *   target: "https://myns.abc123.tmprl.cloud:7233"
+ *   target: "myns.abc123.tmprl.cloud:7233"
  *   namespace: "myns.abc123"
  *   tls:
  *     clientCertPath: "/path/to/client.pem"
@@ -105,20 +105,22 @@ data class TlsYamlConfig(
  * Or with API key:
  * ```yaml
  * connection:
- *   target: "https://myns.abc123.tmprl.cloud:7233"
+ *   target: "myns.abc123.tmprl.cloud:7233"
  *   namespace: "myns.abc123"
  *   apiKey: ${TEMPORAL_API_KEY}
  * ```
  */
 data class ConnectionYamlConfig(
-    /** Target address (e.g., "http://localhost:7233" or "https://my-namespace.tmprl.cloud:7233"). */
-    val target: String = "http://localhost:7233",
+    /** Target address (e.g., "localhost:7233" or "myns.tmprl.cloud:7233"). Scheme is optional. */
+    val target: String = "localhost:7233",
     /** Namespace to use. */
     val namespace: String = "default",
     /** TLS configuration with file paths. */
     val tls: TlsYamlConfig? = null,
     /** API key for Temporal Cloud authentication (alternative to mTLS). */
     val apiKey: String? = null,
+    /** Explicitly disable TLS even when an API key is set. */
+    val tlsDisabled: Boolean = false,
 ) {
     /**
      * Converts this YAML config to a [ConnectionConfig] by loading TLS certificate files.
@@ -129,6 +131,7 @@ data class ConnectionYamlConfig(
             namespace = namespace,
             tls = tls?.toTlsConfig(),
             apiKey = apiKey,
+            tlsDisabled = tlsDisabled,
         )
 }
 

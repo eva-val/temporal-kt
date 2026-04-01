@@ -93,7 +93,7 @@ typealias DynamicActivityHandler = suspend ActivityContext.(
  * ```kotlin
  * val app = TemporalApplication {
  *     connection {
- *         target = "http://localhost:7233"
+ *         target = "localhost:7233"
  *         namespace = "default"
  *     }
  * }
@@ -181,6 +181,7 @@ open class TemporalApplication internal constructor(
                     namespace = config.connection.namespace,
                     tls = config.connection.tls,
                     apiKey = config.connection.apiKey,
+                    tlsDisabled = config.connection.tlsDisabled,
                 )
             coreClient = client
 
@@ -517,6 +518,7 @@ open class TemporalApplication internal constructor(
                 namespace = this@TemporalApplication.config.connection.namespace
                 tls = this@TemporalApplication.config.connection.tls
                 apiKey = this@TemporalApplication.config.connection.apiKey
+                tlsDisabled = this@TemporalApplication.config.connection.tlsDisabled
                 configure()
             }
 
@@ -612,28 +614,29 @@ data class ShutdownConfig(
  * Connection settings for the Temporal service.
  */
 data class ConnectionConfig(
-    /** Target address (e.g., "http://localhost:7233" or "https://my-namespace.tmprl.cloud:7233"). */
-    val target: String = "http://localhost:7233",
+    /** Target address (e.g., "localhost:7233" or "myns.tmprl.cloud:7233"). Scheme is optional. */
+    val target: String = "localhost:7233",
     /** Namespace to use. */
     val namespace: String = "default",
     /**
      * TLS configuration for secure connections.
      *
-     * When null, TLS is automatically enabled for `https://` URLs using system CA certificates.
+     * When null, TLS is automatically enabled for `https://` URLs or when [apiKey] is set,
+     * using system CA certificates.
      * For custom CA certificates, client certificates (mTLS), or domain overrides, provide a [TlsConfig].
-     *
-     * When [apiKey] is provided and [tls] is null, TLS is automatically enabled.
      */
     val tls: TlsConfig? = null,
     /**
      * API key for Temporal Cloud authentication.
      *
      * This is an alternative to mTLS authentication. The API key is sent as a Bearer token
-     * in the Authorization header. When set, TLS is automatically enabled if not explicitly configured.
+     * in the Authorization header. When set, TLS is automatically enabled unless [tlsDisabled] is true.
      *
      * Obtain API keys from the Temporal Cloud UI via Service Accounts.
      */
     val apiKey: String? = null,
+    /** Explicitly disable TLS even when an API key is set. Useful for testing through proxies. */
+    val tlsDisabled: Boolean = false,
 )
 
 /**

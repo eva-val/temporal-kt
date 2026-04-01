@@ -337,7 +337,7 @@ This is useful for REST servers or other services that only need to start workfl
 
 ```kotlin
 val client = TemporalClient.connect {
-    target = "http://localhost:7233"
+    target = "localhost:7233"
     namespace = "default"
 
     // Serialization and codec plugins work here too

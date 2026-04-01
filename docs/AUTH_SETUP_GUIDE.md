@@ -23,7 +23,7 @@ Temporal Cloud supports two authentication methods:
 
 ## API Key authentication
 
-API keys are the simplest way to authenticate with Temporal Cloud. TLS is automatically enabled.
+API keys are the simplest way to authenticate with Temporal Cloud. TLS is automatically enabled when an API key is set (use `tlsDisabled = true` to opt out).
 
 ### DSL
 
@@ -32,7 +32,7 @@ fun main() {
     val app = embeddedTemporal(
         configure = {
             connection {
-                target = "https://myns.abc123.tmprl.cloud:7233"
+                target = "myns.abc123.tmprl.cloud:7233"
                 namespace = "myns.abc123"
                 apiKey = System.getenv("TEMPORAL_API_KEY")
             }
@@ -52,7 +52,7 @@ fun main() {
 ```yaml
 temporal:
   connection:
-    target: "https://myns.abc123.tmprl.cloud:7233"
+    target: "myns.abc123.tmprl.cloud:7233"
     namespace: "myns.abc123"
     apiKey: ${TEMPORAL_API_KEY}
   modules:
@@ -72,7 +72,7 @@ fun main() {
     val app = embeddedTemporal(
         configure = {
             connection {
-                target = "https://myns.abc123.tmprl.cloud:7233"
+                target = "myns.abc123.tmprl.cloud:7233"
                 namespace = "myns.abc123"
                 tls {
                     fromFiles(
@@ -101,7 +101,7 @@ Create `src/main/resources/application.yaml`:
 ```yaml
 temporal:
   connection:
-    target: "https://myns.abc123.tmprl.cloud:7233"
+    target: "myns.abc123.tmprl.cloud:7233"
     namespace: "myns.abc123"
     tls:
       clientCertPath: "/path/to/client.pem"
@@ -115,7 +115,7 @@ With environment variables (Hoplite substitution):
 ```yaml
 temporal:
   connection:
-    target: "https://myns.abc123.tmprl.cloud:7233"
+    target: "myns.abc123.tmprl.cloud:7233"
     namespace: "myns.abc123"
     tls:
       clientCertPath: ${TEMPORAL_CLIENT_CERT_PATH}
@@ -130,7 +130,7 @@ For servers using a private Certificate Authority, include the CA certificate.
 
 ```kotlin
 connection {
-    target = "https://temporal.internal:7233"
+    target = "temporal.internal:7233"
     namespace = "default"
     tls {
         fromFiles(
@@ -147,7 +147,7 @@ connection {
 ```yaml
 temporal:
   connection:
-    target: "https://temporal.internal:7233"
+    target: "temporal.internal:7233"
     namespace: "default"
     tls:
       serverCaCertPath: "/path/to/ca.pem"
@@ -161,7 +161,7 @@ Use `domain` when connecting via IP or through a proxy where the certificate CN 
 
 ```kotlin
 connection {
-    target = "https://10.0.0.50:7233"
+    target = "10.0.0.50:7233"
     namespace = "default"
     tls {
         domain = "temporal.mycompany.com"
@@ -176,7 +176,7 @@ For integration with secret managers:
 
 ```kotlin
 connection {
-    target = "https://myns.abc123.tmprl.cloud:7233"
+    target = "myns.abc123.tmprl.cloud:7233"
     namespace = "myns.abc123"
     tls {
         clientCert = vault.read("secret/temporal/client-cert").toByteArray()
@@ -194,7 +194,7 @@ val tlsConfig = TlsConfig(
 )
 
 connection {
-    target = "https://myns.abc123.tmprl.cloud:7233"
+    target = "myns.abc123.tmprl.cloud:7233"
     namespace = "myns.abc123"
     tls(tlsConfig)
 }
@@ -244,7 +244,7 @@ Client (outside a worker) auth follows a similar pattern (but doesn't support ho
 
 ```kotlin
 val client = TemporalClient.connect {                                                                                                                                  
-  target = "https://myns.abc123.tmprl.cloud:7233"                                                                                                                    
+  target = "myns.abc123.tmprl.cloud:7233"                                                                                                                    
   namespace = "myns.abc123"                                                                                                                                          
   tls {                                                                                                                                                              
       fromFiles(                                                                                                                                                     
@@ -255,7 +255,7 @@ val client = TemporalClient.connect {
 }
 // or with api key
 val client = TemporalClient.connect {
-    target = "https://myns.abc123.tmprl.cloud:7233"
+    target = "myns.abc123.tmprl.cloud:7233"
     namespace = "myns.abc123"
     apiKey = System.getenv("TEMPORAL_API_KEY")
 }

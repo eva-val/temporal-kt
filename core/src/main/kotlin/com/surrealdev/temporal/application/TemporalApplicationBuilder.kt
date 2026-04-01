@@ -82,7 +82,7 @@ class TemporalApplicationBuilder
          * Usage:
          * ```kotlin
          * connection {
-         *     target = "http://localhost:7233"
+         *     target = "localhost:7233"
          *     namespace = "my-namespace"
          * }
          * ```
@@ -199,7 +199,7 @@ class ShutdownConfigBuilder
 class ConnectionConfigBuilder internal constructor(
     base: ConnectionConfig = ConnectionConfig(),
 ) {
-    /** Target address (e.g., "http://localhost:7233" or "https://my-namespace.tmprl.cloud:7233"). */
+    /** Target address (e.g., "localhost:7233" or "myns.tmprl.cloud:7233"). Scheme is optional. */
     var target: String = base.target
 
     /** Namespace to use. */
@@ -211,9 +211,12 @@ class ConnectionConfigBuilder internal constructor(
     /**
      * API key for Temporal Cloud authentication.
      *
-     * Alternative to mTLS. When set, TLS is automatically enabled.
+     * Alternative to mTLS. When set, TLS is automatically enabled unless [tlsDisabled] is true.
      */
     var apiKey: String? = base.apiKey
+
+    /** Explicitly disable TLS even when an API key is set. Useful for testing through proxies. */
+    var tlsDisabled: Boolean = base.tlsDisabled
 
     /**
      * Configures TLS using a builder DSL.
@@ -221,7 +224,7 @@ class ConnectionConfigBuilder internal constructor(
      * Usage:
      * ```kotlin
      * connection {
-     *     target = "https://my-namespace.tmprl.cloud:7233"
+     *     target = "my-namespace.tmprl.cloud:7233"
      *     tls {
      *         serverRootCaCert = caCertBytes
      *         clientCert = clientCertBytes
@@ -240,7 +243,7 @@ class ConnectionConfigBuilder internal constructor(
      * Usage:
      * ```kotlin
      * connection {
-     *     target = "https://my-namespace.tmprl.cloud:7233"
+     *     target = "my-namespace.tmprl.cloud:7233"
      *     tls(TlsConfig.fromFiles(
      *         clientCertPath = "/path/to/client.pem",
      *         clientPrivateKeyPath = "/path/to/client-key.pem"
@@ -258,6 +261,7 @@ class ConnectionConfigBuilder internal constructor(
             namespace = namespace,
             tls = tlsConfig,
             apiKey = apiKey,
+            tlsDisabled = tlsDisabled,
         )
 }
 

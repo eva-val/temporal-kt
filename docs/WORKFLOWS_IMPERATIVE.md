@@ -31,7 +31,7 @@ import com.surrealdev.temporal.application.taskQueue
 fun main() {
     embeddedTemporal(configure = {
         connection {
-            target = "http://localhost:7233"
+            target = "localhost:7233"
             namespace = "default"
         }
     })
@@ -48,7 +48,7 @@ fun main() {
 ```kotlin
 fun main() = runBlocking {
     val client = TemporalClient.connect {
-        target = "http://localhost:7233"
+        target = "localhost:7233"
         namespace = "default"
     }
     
@@ -139,7 +139,7 @@ class GreetingWorkflow {
 fun main() {
     embeddedTemporal(configure = {
         connection {
-            target = "http://localhost:7233"
+            target = "localhost:7233"
             namespace = "default"
         }
     })
@@ -188,7 +188,7 @@ class OrderWorkflow {
 ```kotlin
 fun main() = runBlocking {
     val client = TemporalClient.connect {
-        target = "http://localhost:7233"
+        target = "localhost:7233"
         namespace = "default"
     }
 
@@ -255,7 +255,7 @@ class CounterWorkflow {
 ```kotlin
 fun main() = runBlocking {
     val client = TemporalClient.connect {
-        target = "http://localhost:7233"
+        target = "localhost:7233"
         namespace = "default"
     }
 
@@ -403,7 +403,7 @@ class AccountWorkflow {
 ```kotlin
 fun main() = runBlocking {
     val client = TemporalClient.connect {
-        target = "http://localhost:7233"
+        target = "localhost:7233"
         namespace = "default"
     }
 
@@ -1031,7 +1031,7 @@ import java.time.Instant
 
 fun main() = runBlocking {
     val client = TemporalClient.connect {
-        target = "http://localhost:7233"
+        target = "localhost:7233"
         namespace = "default"
     }
 
@@ -1153,7 +1153,7 @@ temporal workflow list -q "Description LIKE '%important%'"
 ```kotlin
 fun main() = runBlocking {
     val client = TemporalClient.connect {
-        target = "http://localhost:7233"
+        target = "localhost:7233"
         namespace = "default"
     }
 

@@ -66,7 +66,7 @@ import kotlin.coroutines.cancellation.CancellationException
  *
  * // Standalone client
  * val client = TemporalClient.connect {
- *     target = "http://localhost:7233"
+ *     target = "localhost:7233"
  *     install(OpenTelemetryPlugin) {
  *         tracerName = "my-client"
  *     }

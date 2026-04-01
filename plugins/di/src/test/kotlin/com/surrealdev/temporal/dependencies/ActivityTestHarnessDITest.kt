@@ -180,7 +180,7 @@ class ActivityTestHarnessDITest {
             val app =
                 TemporalApplication {
                     connection {
-                        target = "http://localhost:7233"
+                        target = "localhost:7233"
                         namespace = "test"
                     }
                 }
@@ -206,7 +206,7 @@ class ActivityTestHarnessDITest {
             val app =
                 TemporalApplication {
                     connection {
-                        target = "http://localhost:7233"
+                        target = "localhost:7233"
                         namespace = "test"
                     }
                 }

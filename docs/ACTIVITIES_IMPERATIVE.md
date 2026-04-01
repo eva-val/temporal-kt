@@ -27,7 +27,7 @@ import com.surrealdev.temporal.application.taskQueue
 fun main() {
     embeddedTemporal(configure = {
         connection {
-            target = "http://localhost:7233"
+            target = "localhost:7233"
             namespace = "default"
         }
     })

@@ -9,7 +9,7 @@ fun main() {
     embeddedTemporal(
         configure = {
             connection {
-                target = "http://localhost:7233"
+                target = "localhost:7233"
                 namespace = "default"
             }
         },
@@ -32,7 +32,7 @@ Configure the connection to the Temporal server.
 ```kotlin
 embeddedTemporal(configure = {
     connection {
-        target = "http://localhost:7233"  // Server address
+        target = "localhost:7233"  // Server address
         namespace = "default"              // Temporal namespace
     }
 })
@@ -265,7 +265,7 @@ Configure applications using `application.yaml` in your resources.
 ```yaml
 temporal:
   connection:
-    target: "http://localhost:7233"
+    target: "localhost:7233"
     namespace: "default"
   modules:
     - com.example.ModulesKt.ordersModule
@@ -276,7 +276,7 @@ temporal:
 ```yaml
 temporal:
   connection:
-    target: "http://localhost:7233"
+    target: "localhost:7233"
     namespace: "default"
   deployment:
     deploymentName: "order-service"
@@ -469,10 +469,11 @@ embeddedTemporal(module = {
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `target` | String | `"http://localhost:7233"` | Temporal server address |
+| `target` | String | `"localhost:7233"` | Temporal server address (scheme optional) |
 | `namespace` | String | `"default"` | Temporal namespace |
 | `tls` | TlsConfig? | null | TLS configuration |
 | `apiKey` | String? | null | API key for Temporal Cloud |
+| `tlsDisabled` | Boolean | `false` | Explicitly disable TLS (even with API key) |
 
 ### ShutdownConfig
 
