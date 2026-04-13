@@ -7,9 +7,13 @@ import com.surrealdev.temporal.application.plugin.pluginOrNull
 import com.surrealdev.temporal.serialization.converter.ByteArrayPayloadConverter
 import com.surrealdev.temporal.serialization.converter.JsonPayloadConverter
 import com.surrealdev.temporal.serialization.converter.NullPayloadConverter
+import com.surrealdev.temporal.serialization.converter.ProtobufPayloadConverter
 import com.surrealdev.temporal.util.AttributeKey
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
+import kotlinx.serialization.protobuf.ProtoBuf
+import kotlinx.serialization.protobuf.ProtoBufBuilder
 
 /**
  * Plugin for configuring payload serialization.
@@ -80,6 +84,27 @@ class SerializationPluginConfig {
     }
 
     /**
+     * Configure protobuf serialization using kotlinx.serialization.
+     *
+     * This creates a [CompositePayloadSerializer] with `[NullPayloadConverter, ProtobufPayloadConverter, JsonPayloadConverter]`.
+     * Types with `@Serializable` annotation get compact protobuf encoding; all other types fall through to JSON.
+     *
+     * @param protobufConfigure Optional configuration block for [ProtoBuf] builder
+     * @param jsonConfigure Optional configuration block for [Json] builder (for the JSON fallback)
+     */
+    @OptIn(ExperimentalSerializationApi::class)
+    fun protobuf(
+        protobufConfigure: ProtoBufBuilder.() -> Unit = {},
+        jsonConfigure: JsonBuilder.() -> Unit = {},
+    ) {
+        converters {
+            `null`()
+            protobuf(protobufConfigure)
+            json(jsonConfigure)
+        }
+    }
+
+    /**
      * Use a custom [PayloadSerializer] implementation.
      *
      * This bypasses the converter chain entirely and uses the provided serializer directly.
@@ -142,6 +167,20 @@ class ConverterChainBuilder {
      */
     fun byteArray() {
         converters.add(ByteArrayPayloadConverter)
+    }
+
+    /**
+     * Adds a [ProtobufPayloadConverter] for protobuf serialization via kotlinx.serialization.
+     *
+     * This is a non-catch-all converter: it returns null for types without a `@Serializable`
+     * serializer, allowing subsequent converters to handle them. Place before [json].
+     *
+     * @param configure Optional configuration block for [ProtoBuf] builder
+     */
+    @OptIn(ExperimentalSerializationApi::class)
+    fun protobuf(configure: ProtoBufBuilder.() -> Unit = {}) {
+        val protoBuf = ProtoBuf { configure() }
+        converters.add(ProtobufPayloadConverter(protoBuf))
     }
 
     /**

@@ -27,6 +27,7 @@ kotlinGradlePluginApi = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin-ap
 kotlinCompilerEmbeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
 kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
+kotlinxSerializationProtobuf = { module = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf", version.ref = "kotlinxSerializationJSON" }
 kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinxCoroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 protobufJava = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
@@ -50,7 +51,7 @@ jibGradlePluginExtensionApi = { module = "com.google.cloud.tools:jib-gradle-plug
 
 # Libraries can be bundled together for easier import
 [bundles]
-kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
+kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxSerializationProtobuf", "kotlinxCoroutines"]
 hoplite = ["hopliteCore", "hopliteYaml"]
 
 [plugins]

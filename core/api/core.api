@@ -4092,6 +4092,8 @@ public final class com/surrealdev/temporal/serialization/ConverterChainBuilder {
 	public final fun json (Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun json$default (Lcom/surrealdev/temporal/serialization/ConverterChainBuilder;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun null ()V
+	public final fun protobuf (Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun protobuf$default (Lcom/surrealdev/temporal/serialization/ConverterChainBuilder;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
 public final class com/surrealdev/temporal/serialization/NoOpCodec : com/surrealdev/temporal/serialization/PayloadCodec {
@@ -4129,6 +4131,8 @@ public final class com/surrealdev/temporal/serialization/SerializationPluginConf
 	public final fun custom (Lcom/surrealdev/temporal/serialization/PayloadSerializer;)V
 	public final fun json (Lkotlin/jvm/functions/Function1;)V
 	public static synthetic fun json$default (Lcom/surrealdev/temporal/serialization/SerializationPluginConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun protobuf (Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun protobuf$default (Lcom/surrealdev/temporal/serialization/SerializationPluginConfig;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
 public final class com/surrealdev/temporal/serialization/SerializationPluginInstance {
@@ -4181,6 +4185,20 @@ public final class com/surrealdev/temporal/serialization/converter/NullPayloadCo
 	public fun fromPayload-jFCW3lo (Lkotlin/reflect/KType;Lio/temporal/api/common/v1/Payload;)Ljava/lang/Object;
 	public fun getEncoding ()Ljava/lang/String;
 	public fun toPayload-bjGodng (Lkotlin/reflect/KType;Ljava/lang/Object;)Lio/temporal/api/common/v1/Payload;
+}
+
+public final class com/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter : com/surrealdev/temporal/serialization/PayloadConverter {
+	public static final field Companion Lcom/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter$Companion;
+	public fun <init> ()V
+	public fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;)V
+	public synthetic fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun fromPayload-jFCW3lo (Lkotlin/reflect/KType;Lio/temporal/api/common/v1/Payload;)Ljava/lang/Object;
+	public fun getEncoding ()Ljava/lang/String;
+	public fun toPayload-bjGodng (Lkotlin/reflect/KType;Ljava/lang/Object;)Lio/temporal/api/common/v1/Payload;
+}
+
+public final class com/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter$Companion {
+	public final fun default ()Lcom/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter;
 }
 
 public final class com/surrealdev/temporal/util/AttributeKey {
