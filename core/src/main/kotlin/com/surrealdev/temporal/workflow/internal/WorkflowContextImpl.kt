@@ -756,6 +756,11 @@ internal class WorkflowContextImpl(
             commandBuilder.setRetryPolicy(policy.toProto())
         }
 
+        // Set workflow ID reuse policy if provided
+        options.workflowIdReusePolicy?.let {
+            commandBuilder.setWorkflowIdReusePolicy(it.toProto())
+        }
+
         // Set search attributes if provided
         options.searchAttributes?.let { attrs ->
             if (attrs.isNotEmpty()) {

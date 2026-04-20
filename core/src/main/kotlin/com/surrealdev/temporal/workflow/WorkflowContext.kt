@@ -1,6 +1,7 @@
 package com.surrealdev.temporal.workflow
 
 import com.surrealdev.temporal.annotation.InternalTemporalApi
+import com.surrealdev.temporal.client.WorkflowIdReusePolicy
 import com.surrealdev.temporal.common.RetryPolicy
 import com.surrealdev.temporal.common.TemporalPayload
 import com.surrealdev.temporal.common.TemporalPayloads
@@ -659,6 +660,8 @@ data class ChildWorkflowOptions(
     val cancellationType: ChildWorkflowCancellationType = ChildWorkflowCancellationType.WAIT_CANCELLATION_COMPLETED,
     /** Typed search attributes for the child workflow. */
     val searchAttributes: TypedSearchAttributes? = null,
+    /** Policy for reusing a workflow ID that was previously used. Null lets the server pick its default. */
+    val workflowIdReusePolicy: WorkflowIdReusePolicy? = null,
 )
 
 /**
@@ -854,7 +857,7 @@ class ContinueAsNewException(
     /** Configuration for the new execution. */
     val options: ContinueAsNewOptions,
     /** Arguments for the new execution with their types. */
-    val typedArgs: List<Pair<kotlin.reflect.KType, Any?>>,
+    val typedArgs: List<Pair<KType, Any?>>,
     /**
      * Pre-serialized arguments (set when going through the interceptor chain path).
      * When non-null, these are used directly instead of serializing [typedArgs].
