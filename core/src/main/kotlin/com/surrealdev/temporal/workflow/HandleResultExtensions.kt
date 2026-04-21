@@ -58,13 +58,12 @@ internal inline fun <reified R> deserializePayload(
 ): R {
     val returnType = typeOf<R>()
 
-    return if (payload == null || payload.data.isEmpty()) {
-        // Empty payload
-        if (returnType.classifier == Unit::class) {
-            Unit as R
-        } else {
-            null as R
-        }
+    if (returnType.classifier == Unit::class) {
+        return Unit as R
+    }
+
+    return if (payload == null) {
+        null as R
     } else {
         serializer.deserialize(returnType, payload) as R
     }
