@@ -130,7 +130,7 @@ class ProtobufPayloadConverter(
     fun reconstructFromMetadata(
         payload: TemporalPayload,
         reflectionWhiteList: Set<String>? = null,
-    ): Any? {
+    ): Pair<KType, Any?> {
         val typeBytes =
             payload.metadataByteStrings[KOTLINX_PROTO_TYPE_METADATA] ?: throw PayloadSerializationException(
                 "Cannot reconstruct kotlinx serialization proto payload when $KOTLINX_PROTO_TYPE_METADATA is missing",
@@ -164,7 +164,7 @@ class ProtobufPayloadConverter(
                 }
             }
 
-        return fromPayload(realType, payload)
+        return realType to fromPayload(realType, payload)
     }
 
     override fun toPayload(

@@ -246,8 +246,9 @@ class ProtobufPayloadConverterTest {
         val original = TestData("reconstruct", 7)
         val payload = typedConverter.toPayload(typeOf<TestData>(), original)!!
 
-        val result = typedConverter.reconstructFromMetadata(payload)
-        assertEquals(original, result)
+        val (type, value) = typedConverter.reconstructFromMetadata(payload)
+        assertEquals(typeOf<TestData>(), type)
+        assertEquals(original, value)
     }
 
     @Test
@@ -259,8 +260,9 @@ class ProtobufPayloadConverterTest {
             )
         val payload = typedConverter.toPayload(typeOf<NestedData>(), original)!!
 
-        val result = typedConverter.reconstructFromMetadata(payload)
-        assertEquals(original, result)
+        val (type, value) = typedConverter.reconstructFromMetadata(payload)
+        assertEquals(typeOf<NestedData>(), type)
+        assertEquals(original, value)
     }
 
     @Test
@@ -268,8 +270,9 @@ class ProtobufPayloadConverterTest {
         val original = listOf(TestData("x", 10), TestData("y", 20))
         val payload = typedConverter.toPayload(typeOf<List<TestData>>(), original)!!
 
-        val result = typedConverter.reconstructFromMetadata(payload)
-        assertEquals(original, result)
+        val (type, value) = typedConverter.reconstructFromMetadata(payload)
+        assertEquals(typeOf<List<TestData>>(), type)
+        assertEquals(original, value)
     }
 
     @Test
@@ -346,12 +349,13 @@ class ProtobufPayloadConverterTest {
         val original = TestData("allowed", 2)
         val payload = typedConverter.toPayload(typeOf<TestData>(), original)!!
 
-        val result =
+        val (type, value) =
             typedConverter.reconstructFromMetadata(
                 payload,
                 reflectionWhiteList = setOf(TestData::class.java.name),
             )
-        assertEquals(original, result)
+        assertEquals(typeOf<TestData>(), type)
+        assertEquals(original, value)
     }
 
     @Test
@@ -426,8 +430,9 @@ class ProtobufPayloadConverterTest {
         val original: Shape = Shape.Rectangle(3.0, 4.0)
         val payload = typedConverter.toPayload(typeOf<Shape>(), original)!!
 
-        val result = typedConverter.reconstructFromMetadata(payload)
-        assertEquals(original, result)
+        val (type, value) = typedConverter.reconstructFromMetadata(payload)
+        assertEquals(typeOf<Shape>(), type)
+        assertEquals(original, value)
     }
 
     @OptIn(ExperimentalSerializationApi::class)
