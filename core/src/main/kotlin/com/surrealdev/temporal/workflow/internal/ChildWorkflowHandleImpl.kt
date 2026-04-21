@@ -86,11 +86,7 @@ internal class ChildWorkflowHandleImpl(
             result.hasCompleted() -> {
                 val payload = result.completed.result
                 // Decode through codec, then return
-                if (payload.data.isEmpty) {
-                    null
-                } else {
-                    codec.safeDecodeSingle(payload)
-                }
+                codec.safeDecodeSingle(payload)
             }
 
             result.hasFailed() -> {
