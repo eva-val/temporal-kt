@@ -4190,15 +4190,99 @@ public final class com/surrealdev/temporal/serialization/converter/NullPayloadCo
 public final class com/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter : com/surrealdev/temporal/serialization/PayloadConverter {
 	public static final field Companion Lcom/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter$Companion;
 	public fun <init> ()V
-	public fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;)V
-	public synthetic fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;Z)V
+	public synthetic fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun fromPayload-jFCW3lo (Lkotlin/reflect/KType;Lio/temporal/api/common/v1/Payload;)Ljava/lang/Object;
 	public fun getEncoding ()Ljava/lang/String;
+	public final fun getIncludeType ()Z
+	public final fun reconstructFromMetadata-Y9WCruI (Lio/temporal/api/common/v1/Payload;Ljava/util/Set;)Ljava/lang/Object;
+	public static synthetic fun reconstructFromMetadata-Y9WCruI$default (Lcom/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter;Lio/temporal/api/common/v1/Payload;Ljava/util/Set;ILjava/lang/Object;)Ljava/lang/Object;
 	public fun toPayload-bjGodng (Lkotlin/reflect/KType;Ljava/lang/Object;)Lio/temporal/api/common/v1/Payload;
 }
 
 public final class com/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter$Companion {
 	public final fun default ()Lcom/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter;
+}
+
+public final class com/surrealdev/temporal/serialization/converter/ProtobufPayloadConverterKt {
+	public static final field KOTLINX_PROTO_TYPE_METADATA Ljava/lang/String;
+}
+
+public final class com/surrealdev/temporal/serialization/converter/SerializedKType {
+	public static final field Companion Lcom/surrealdev/temporal/serialization/converter/SerializedKType$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Z)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Z
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Z)Lcom/surrealdev/temporal/serialization/converter/SerializedKType;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/serialization/converter/SerializedKType;Ljava/lang/String;Ljava/util/List;ZILjava/lang/Object;)Lcom/surrealdev/temporal/serialization/converter/SerializedKType;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArguments ()Ljava/util/List;
+	public final fun getClassifier ()Ljava/lang/String;
+	public final fun getNullable ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/surrealdev/temporal/serialization/converter/SerializedKType$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/surrealdev/temporal/serialization/converter/SerializedKType$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/surrealdev/temporal/serialization/converter/SerializedKType;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/surrealdev/temporal/serialization/converter/SerializedKType;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/surrealdev/temporal/serialization/converter/SerializedKType$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/surrealdev/temporal/serialization/converter/SerializedKTypeProjection {
+	public static final field Companion Lcom/surrealdev/temporal/serialization/converter/SerializedKTypeProjection$Companion;
+	public fun <init> ()V
+	public fun <init> (Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;Lcom/surrealdev/temporal/serialization/converter/SerializedKType;)V
+	public synthetic fun <init> (Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;Lcom/surrealdev/temporal/serialization/converter/SerializedKType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;
+	public final fun component2 ()Lcom/surrealdev/temporal/serialization/converter/SerializedKType;
+	public final fun copy (Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;Lcom/surrealdev/temporal/serialization/converter/SerializedKType;)Lcom/surrealdev/temporal/serialization/converter/SerializedKTypeProjection;
+	public static synthetic fun copy$default (Lcom/surrealdev/temporal/serialization/converter/SerializedKTypeProjection;Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;Lcom/surrealdev/temporal/serialization/converter/SerializedKType;ILjava/lang/Object;)Lcom/surrealdev/temporal/serialization/converter/SerializedKTypeProjection;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getType ()Lcom/surrealdev/temporal/serialization/converter/SerializedKType;
+	public final fun getVariance ()Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/surrealdev/temporal/serialization/converter/SerializedKTypeProjection$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/surrealdev/temporal/serialization/converter/SerializedKTypeProjection$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/surrealdev/temporal/serialization/converter/SerializedKTypeProjection;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/surrealdev/temporal/serialization/converter/SerializedKTypeProjection;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/surrealdev/temporal/serialization/converter/SerializedKTypeProjection$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/surrealdev/temporal/serialization/converter/SerializedVariance : java/lang/Enum {
+	public static final field Companion Lcom/surrealdev/temporal/serialization/converter/SerializedVariance$Companion;
+	public static final field IN Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;
+	public static final field INVARIANT Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;
+	public static final field OUT Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;
+	public static fun values ()[Lcom/surrealdev/temporal/serialization/converter/SerializedVariance;
+}
+
+public final class com/surrealdev/temporal/serialization/converter/SerializedVariance$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/surrealdev/temporal/util/AttributeKey {

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalSerializationApi::class)
+
 package com.surrealdev.temporal.serialization
 
 import com.surrealdev.temporal.common.TemporalPayload
@@ -5,11 +7,16 @@ import com.surrealdev.temporal.common.exceptions.PayloadSerializationException
 import com.surrealdev.temporal.serialization.converter.JsonPayloadConverter
 import com.surrealdev.temporal.serialization.converter.NullPayloadConverter
 import com.surrealdev.temporal.serialization.converter.ProtobufPayloadConverter
+import com.surrealdev.temporal.serialization.converter.SerializedKType
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromByteArray
+import kotlinx.serialization.encodeToByteArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import kotlinx.serialization.protobuf.ProtoBuf
 import kotlin.reflect.typeOf
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -37,7 +44,31 @@ class ProtobufPayloadConverterTest {
         val payload: JsonElement,
     )
 
+    @Serializable
+    sealed class Shape {
+        @Serializable
+        data class Circle(
+            val radius: Double,
+        ) : Shape()
+
+        @Serializable
+        data class Rectangle(
+            val width: Double,
+            val height: Double,
+        ) : Shape()
+
+        @Serializable
+        data object Unit : Shape()
+    }
+
+    @Serializable
+    data class ShapeHolder(
+        val label: String,
+        val shape: Shape,
+    )
+
     private val converter = ProtobufPayloadConverter.default()
+    private val typedConverter = ProtobufPayloadConverter(includeType = true)
 
     // ================================================================
     // Basic serialization
@@ -200,6 +231,214 @@ class ProtobufPayloadConverterTest {
 
         val result = chain.deserialize(typeOf<TestData?>(), payload)
         assertNull(result)
+    }
+
+    // ================================================================
+    // Protobuf is more compact than JSON
+    // ================================================================
+
+    // ================================================================
+    // reconstructFromMetadata
+    // ================================================================
+
+    @Test
+    fun `reconstructFromMetadata round-trips Serializable data class`() {
+        val original = TestData("reconstruct", 7)
+        val payload = typedConverter.toPayload(typeOf<TestData>(), original)!!
+
+        val result = typedConverter.reconstructFromMetadata(payload)
+        assertEquals(original, result)
+    }
+
+    @Test
+    fun `reconstructFromMetadata round-trips nested generic types`() {
+        val original =
+            NestedData(
+                items = listOf(TestData("a", 1), TestData("b", 2)),
+                label = "nested",
+            )
+        val payload = typedConverter.toPayload(typeOf<NestedData>(), original)!!
+
+        val result = typedConverter.reconstructFromMetadata(payload)
+        assertEquals(original, result)
+    }
+
+    @Test
+    fun `reconstructFromMetadata round-trips parameterized List`() {
+        val original = listOf(TestData("x", 10), TestData("y", 20))
+        val payload = typedConverter.toPayload(typeOf<List<TestData>>(), original)!!
+
+        val result = typedConverter.reconstructFromMetadata(payload)
+        assertEquals(original, result)
+    }
+
+    @Test
+    fun `reconstructFromMetadata throws when type metadata is missing`() {
+        val payload = converter.toPayload(typeOf<TestData>(), TestData("no-meta", 1))!!
+
+        assertFailsWith<PayloadSerializationException> {
+            typedConverter.reconstructFromMetadata(payload)
+        }
+    }
+
+    @Test
+    fun `reconstructFromMetadata throws on malformed type metadata`() {
+        // Random garbage bytes that are not valid protobuf for SerializedKType
+        val badPayload =
+            TemporalPayload.create(
+                byteArrayOf(0x00),
+                mapOf(
+                    TemporalPayload.METADATA_ENCODING to
+                        com.surrealdev.temporal.common.TemporalByteString
+                            .fromUtf8(TemporalPayload.ENCODING_PROTOBUF),
+                    "ktMessageType" to
+                        com.surrealdev.temporal.common.TemporalByteString
+                            .from(byteArrayOf(0xFF.toByte(), 0xFF.toByte(), 0xFF.toByte(), 0xFF.toByte())),
+                ),
+            )
+
+        assertFailsWith<PayloadSerializationException> {
+            typedConverter.reconstructFromMetadata(badPayload)
+        }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Test
+    fun `reconstructFromMetadata throws when classifier class is not found`() {
+        val badType =
+            SerializedKType(
+                classifier = "com.does.not.Exist",
+                arguments = emptyList(),
+                nullable = false,
+            )
+        val badBytes = ProtoBuf { encodeDefaults = true }.encodeToByteArray(badType)
+        val badPayload =
+            TemporalPayload.create(
+                byteArrayOf(0x00),
+                mapOf(
+                    TemporalPayload.METADATA_ENCODING to
+                        com.surrealdev.temporal.common.TemporalByteString
+                            .fromUtf8(TemporalPayload.ENCODING_PROTOBUF),
+                    "ktMessageType" to
+                        com.surrealdev.temporal.common.TemporalByteString
+                            .from(badBytes),
+                ),
+            )
+
+        assertFailsWith<PayloadSerializationException> {
+            typedConverter.reconstructFromMetadata(badPayload)
+        }
+    }
+
+    @Test
+    fun `reconstructFromMetadata throws when classifier is not in whitelist`() {
+        val payload = typedConverter.toPayload(typeOf<TestData>(), TestData("blocked", 1))!!
+
+        val ex =
+            assertFailsWith<PayloadSerializationException> {
+                typedConverter.reconstructFromMetadata(payload, reflectionWhiteList = setOf("com.other.Thing"))
+            }
+        assertTrue(ex.message?.contains("not whitelisted") == true)
+    }
+
+    @Test
+    fun `reconstructFromMetadata succeeds when classifier is in whitelist`() {
+        val original = TestData("allowed", 2)
+        val payload = typedConverter.toPayload(typeOf<TestData>(), original)!!
+
+        val result =
+            typedConverter.reconstructFromMetadata(
+                payload,
+                reflectionWhiteList = setOf(TestData::class.java.name),
+            )
+        assertEquals(original, result)
+    }
+
+    @Test
+    fun `toPayload with includeType=false omits type metadata`() {
+        val payload = converter.toPayload(typeOf<TestData>(), TestData("bare", 3))!!
+
+        assertNull(payload.getMetadataString("ktMessageType"))
+    }
+
+    @Test
+    fun `toPayload with includeType=true populates type metadata`() {
+        val payload = typedConverter.toPayload(typeOf<TestData>(), TestData("typed", 4))!!
+
+        assertNotNull(payload.getMetadataString("ktMessageType"))
+    }
+
+    // ================================================================
+    // Sealed class polymorphism
+    // ================================================================
+
+    @Test
+    fun `round-trips sealed class subtype via sealed base type`() {
+        val circle: Shape = Shape.Circle(3.14)
+        val payload = converter.toPayload(typeOf<Shape>(), circle)!!
+
+        val result = converter.fromPayload(typeOf<Shape>(), payload)
+        assertEquals(circle, result)
+    }
+
+    @Test
+    fun `round-trips all sealed subtypes via sealed base type`() {
+        val cases: List<Shape> =
+            listOf(
+                Shape.Circle(1.5),
+                Shape.Rectangle(2.0, 4.0),
+                Shape.Unit,
+            )
+
+        for (original in cases) {
+            val payload = converter.toPayload(typeOf<Shape>(), original)!!
+            val result = converter.fromPayload(typeOf<Shape>(), payload)
+            assertEquals(original, result)
+        }
+    }
+
+    @Test
+    fun `round-trips sealed class nested inside another Serializable`() {
+        val original = ShapeHolder("holder", Shape.Rectangle(5.0, 6.0))
+        val payload = converter.toPayload(typeOf<ShapeHolder>(), original)!!
+
+        val result = converter.fromPayload(typeOf<ShapeHolder>(), payload)
+        assertEquals(original, result)
+    }
+
+    @Test
+    fun `round-trips list of sealed base type with mixed subtypes`() {
+        val original: List<Shape> =
+            listOf(
+                Shape.Circle(0.5),
+                Shape.Rectangle(1.0, 2.0),
+                Shape.Unit,
+                Shape.Circle(9.9),
+            )
+        val payload = converter.toPayload(typeOf<List<Shape>>(), original)!!
+
+        val result = converter.fromPayload(typeOf<List<Shape>>(), payload)
+        assertEquals(original, result)
+    }
+
+    @Test
+    fun `reconstructFromMetadata round-trips sealed class via base type`() {
+        val original: Shape = Shape.Rectangle(3.0, 4.0)
+        val payload = typedConverter.toPayload(typeOf<Shape>(), original)!!
+
+        val result = typedConverter.reconstructFromMetadata(payload)
+        assertEquals(original, result)
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    @Test
+    fun `reconstructFromMetadata sealed base classifier is the sealed type not the subtype`() {
+        val payload = typedConverter.toPayload(typeOf<Shape>(), Shape.Circle(1.0))!!
+
+        val metaBytes = payload.metadataByteStrings["ktMessageType"]?.toByteArray()
+        assertNotNull(metaBytes)
+        val decoded = ProtoBuf { encodeDefaults = true }.decodeFromByteArray<SerializedKType>(metaBytes)
+        assertEquals(Shape::class.java.name, decoded.classifier)
     }
 
     // ================================================================
