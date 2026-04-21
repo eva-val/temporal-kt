@@ -62,7 +62,12 @@ internal inline fun <reified R> deserializePayload(
         return Unit as R
     }
 
-    return if (payload == null) {
+    // A payload with no encoding metadata AND no data is a degenerate "no result" payload
+    // (e.g. Payload.getDefaultInstance() from the server when an activity/workflow produced
+    // nothing). Collapse it to null. When encoding IS present, always delegate to the
+    // serializer — proto3's wire-format contract is that a 0-byte message decodes to the
+    // default instance, and NullPayloadConverter handles explicit nulls via encoding metadata.
+    return if (payload == null || (payload.encoding == null && payload.data.isEmpty())) {
         null as R
     } else {
         serializer.deserialize(returnType, payload) as R
