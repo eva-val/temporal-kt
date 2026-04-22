@@ -86,22 +86,34 @@ const val KOTLINX_PROTO_TYPE_METADATA = "ktMessageType"
 
 private val kMetadataProto = ProtoBuf { encodeDefaults = true }
 
+private val PROTOBUF_ENCODING_BYTES = TemporalByteString.fromUtf8(TemporalPayload.ENCODING_PROTOBUF)
+
+@OptIn(ExperimentalSerializationApi::class)
 private fun buildMetadata(
     includeType: Boolean,
+    includeSerialName: Boolean,
     type: KType,
-    cache: ConcurrentHashMap<KType, TemporalByteString>,
-): Map<String, TemporalByteString> =
-    if (!includeType) {
-        mapOf(TemporalPayload.METADATA_ENCODING to TemporalByteString.fromUtf8(TemporalPayload.ENCODING_PROTOBUF))
-    } else {
-        mapOf(
-            TemporalPayload.METADATA_ENCODING to TemporalByteString.fromUtf8(TemporalPayload.ENCODING_PROTOBUF),
-            KOTLINX_PROTO_TYPE_METADATA to
-                cache.getOrPut(type) {
-                    TemporalByteString.from(kMetadataProto.encodeToByteArray(type.toSerialized()))
-                },
-        )
+    serializer: kotlinx.serialization.KSerializer<*>,
+    typeCache: ConcurrentHashMap<KType, TemporalByteString>,
+): Map<String, TemporalByteString> {
+    if (!includeType && !includeSerialName) {
+        return mapOf(TemporalPayload.METADATA_ENCODING to PROTOBUF_ENCODING_BYTES)
     }
+    val map = LinkedHashMap<String, TemporalByteString>(3)
+    map[TemporalPayload.METADATA_ENCODING] = PROTOBUF_ENCODING_BYTES
+    if (includeType) {
+        // type object ptr is a stable cache key for a JVM instance
+        map[KOTLINX_PROTO_TYPE_METADATA] =
+            typeCache.getOrPut(type) {
+                TemporalByteString.from(kMetadataProto.encodeToByteArray(type.toSerialized()))
+            }
+    }
+    if (includeSerialName) {
+        map[TemporalPayload.METADATA_MESSAGE_TYPE] =
+            TemporalByteString.fromUtf8(serializer.descriptor.serialName)
+    }
+    return map
+}
 
 /**
  * Protobuf converter using kotlinx.serialization.
@@ -112,6 +124,7 @@ private fun buildMetadata(
 class ProtobufPayloadConverter(
     private val protoBuf: ProtoBuf = ProtoBuf.Default,
     val includeType: Boolean = false,
+    val includeSerialNameAsMessageType: Boolean = false,
 ) : PayloadConverter {
     private val typeCache = ConcurrentHashMap<KType, TemporalByteString>()
     private val inverseCache = ConcurrentHashMap<SerializedKType, KType>()
@@ -180,7 +193,9 @@ class ProtobufPayloadConverter(
                 return null // Not @Serializable — fall through to next converter
             }
         return try {
-            TemporalPayload.create(buildMetadata(includeType, typeInfo, typeCache)) { stream ->
+            TemporalPayload.create(
+                buildMetadata(includeType, includeSerialNameAsMessageType, typeInfo, serializer, typeCache),
+            ) { stream ->
                 stream.write(protoBuf.encodeToByteArray(serializer, value))
             }
         } catch (e: IllegalStateException) {

@@ -4168,10 +4168,11 @@ public final class com/surrealdev/temporal/serialization/converter/ByteArrayPayl
 public final class com/surrealdev/temporal/serialization/converter/JsonPayloadConverter : com/surrealdev/temporal/serialization/PayloadConverter {
 	public static final field Companion Lcom/surrealdev/temporal/serialization/converter/JsonPayloadConverter$Companion;
 	public fun <init> ()V
-	public fun <init> (Lkotlinx/serialization/json/Json;)V
-	public synthetic fun <init> (Lkotlinx/serialization/json/Json;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlinx/serialization/json/Json;Z)V
+	public synthetic fun <init> (Lkotlinx/serialization/json/Json;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun fromPayload-jFCW3lo (Lkotlin/reflect/KType;Lio/temporal/api/common/v1/Payload;)Ljava/lang/Object;
 	public fun getEncoding ()Ljava/lang/String;
+	public final fun getIncludeSerialNameAsMessageType ()Z
 	public fun toPayload-YcM9X9I (Lkotlin/reflect/KType;Ljava/lang/Object;)Lio/temporal/api/common/v1/Payload;
 	public synthetic fun toPayload-bjGodng (Lkotlin/reflect/KType;Ljava/lang/Object;)Lio/temporal/api/common/v1/Payload;
 }
@@ -4190,10 +4191,11 @@ public final class com/surrealdev/temporal/serialization/converter/NullPayloadCo
 public final class com/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter : com/surrealdev/temporal/serialization/PayloadConverter {
 	public static final field Companion Lcom/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter$Companion;
 	public fun <init> ()V
-	public fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;Z)V
-	public synthetic fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;ZZ)V
+	public synthetic fun <init> (Lkotlinx/serialization/protobuf/ProtoBuf;ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun fromPayload-jFCW3lo (Lkotlin/reflect/KType;Lio/temporal/api/common/v1/Payload;)Ljava/lang/Object;
 	public fun getEncoding ()Ljava/lang/String;
+	public final fun getIncludeSerialNameAsMessageType ()Z
 	public final fun getIncludeType ()Z
 	public final fun reconstructFromMetadata-Y9WCruI (Lio/temporal/api/common/v1/Payload;Ljava/util/Set;)Lkotlin/Pair;
 	public static synthetic fun reconstructFromMetadata-Y9WCruI$default (Lcom/surrealdev/temporal/serialization/converter/ProtobufPayloadConverter;Lio/temporal/api/common/v1/Payload;Ljava/util/Set;ILjava/lang/Object;)Lkotlin/Pair;

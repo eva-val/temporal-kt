@@ -5,14 +5,18 @@ import com.surrealdev.temporal.common.TemporalPayload
 import com.surrealdev.temporal.common.exceptions.PayloadSerializationException
 import com.surrealdev.temporal.serialization.PayloadConverter
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
 import kotlinx.serialization.serializer
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KType
 
 private val JSON_METADATA =
     mapOf(TemporalPayload.METADATA_ENCODING to TemporalByteString.fromUtf8(TemporalPayload.ENCODING_JSON))
+
+private val JSON_ENCODING_BYTES = TemporalByteString.fromUtf8(TemporalPayload.ENCODING_JSON)
 
 /**
  * JSON converter using kotlinx.serialization.
@@ -22,20 +26,44 @@ private val JSON_METADATA =
  * should be placed last in the converter chain.
  *
  * @param json The [Json] instance to use for serialization/deserialization
+ * @param includeSerialNameAsMessageType When true, the top-level serializer's
+ *   `descriptor.serialName` is written to [TemporalPayload.METADATA_MESSAGE_TYPE].
  */
 class JsonPayloadConverter(
     private val json: Json = DEFAULT_JSON,
+    val includeSerialNameAsMessageType: Boolean = false,
 ) : PayloadConverter {
     override val encoding: String = TemporalPayload.ENCODING_JSON
+
+    private val metadataCache = ConcurrentHashMap<KType, Map<String, TemporalByteString>>()
+
+    @OptIn(ExperimentalSerializationApi::class)
+    private fun metadataFor(
+        typeInfo: KType,
+        serializer: KSerializer<*>,
+    ): Map<String, TemporalByteString> =
+        if (!includeSerialNameAsMessageType) {
+            JSON_METADATA
+        } else {
+            metadataCache.getOrPut(typeInfo) {
+                mapOf(
+                    TemporalPayload.METADATA_ENCODING to JSON_ENCODING_BYTES,
+                    TemporalPayload.METADATA_MESSAGE_TYPE to
+                        TemporalByteString.fromUtf8(serializer.descriptor.serialName),
+                )
+            }
+        }
 
     override fun toPayload(
         typeInfo: KType,
         value: Any?,
     ): TemporalPayload =
         try {
-            TemporalPayload.create(JSON_METADATA) { stream ->
+            @OptIn(ExperimentalSerializationApi::class)
+            val serializer = json.serializersModule.serializer(typeInfo)
+            TemporalPayload.create(metadataFor(typeInfo, serializer)) { stream ->
                 @OptIn(ExperimentalSerializationApi::class)
-                json.encodeToStream(json.serializersModule.serializer(typeInfo), value!!, stream)
+                json.encodeToStream(serializer, value!!, stream)
             }
         } catch (e: Exception) {
             throw PayloadSerializationException(
