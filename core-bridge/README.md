@@ -11,19 +11,42 @@ The SDK-Core submodule is included as a workspace member in our parent Rust work
 sdk-core crates and maintains its own `Cargo.lock` for reproducible builds (the sdk-core submodule gitignores its lock file
 since it's a library). The C-compatible shared library is built as part of the Gradle build for this module.
 
-## Build (Your Platform)
+## Build
+
+The native library is built via Nix (see `flake.nix` at the repo root). For
+day-to-day development, just run:
 
 ```bash
 gradle build
 ```
 
-## Build (All Platforms)
+Gradle invokes `nix build` automatically for the host's classifier and feeds
+the resulting JAR into `processTestResources`. Requires `nix` on PATH with
+flakes enabled (the repo flake's `devShells.default` provides everything else).
+
+To build a specific classifier JAR directly:
 
 ```bash
-gradle cargoBuildAll
-gradle copyAllNativeLibs
-gradle build
+nix build .#core-bridge-jar-<classifier>
 ```
+
+where `<classifier>` is one of `linux-x86_64-gnu`, `linux-aarch64-gnu`,
+`macos-aarch64`, `windows-x86_64`. The flake mirrors the sdk-core submodule as
+a pinned flake input, so `?submodules=1` is not required — `nix build` works
+on a fresh clone whether or not the submodule has been initialised. The result
+JAR contains `native/<classifier>/<libname>` and is ready to publish as a
+Maven classifier artifact.
+
+To inject a pre-built JAR (e.g., from CI artifacts) instead of letting Gradle
+invoke Nix, pass `-PcoreBridgeJar.<classifier>=<absolute-path>`.
+
+### Cross-compilation matrix
+
+| Build host     | Buildable classifiers                                             |
+|----------------|-------------------------------------------------------------------|
+| `x86_64-linux` | `linux-x86_64-gnu`, `linux-aarch64-gnu`, `windows-x86_64` (mingw) |
+| `aarch64-linux`| `linux-x86_64-gnu`, `linux-aarch64-gnu`, `windows-x86_64` (mingw) |
+| `aarch64-darwin` | `macos-aarch64`                                                 |
 
 ## Updating Dependencies
 

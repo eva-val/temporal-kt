@@ -58,23 +58,13 @@ tasks.withType<JavaExec>().configureEach {
     jvmArgs(nativeAccessArgs)
 }
 
-// Native library path for internal development
-// Skip for core-bridge since it already handles its own native library inclusion
+// Most kotlin-jvm modules transitively depend on :core-bridge via :core or
+// :core-testing — even tests in :plugins:* and :compiler-plugin spin up a
+// TemporalRuntime via TemporalTestFixture, which loads the native library.
+// Wire processTestResources to the host's classifier JAR by default; the Nix
+// build is cached after the first run, so the cost on truly-independent
+// modules (e.g. :plugins:jib) is negligible. core-bridge wires this itself
+// because it also needs `coreBridgeClassifierJar` for publishing.
 if (project.name != "core-bridge") {
-    val nativeLibsDir = rootProject.layout.projectDirectory.dir("core-bridge/build/native-libs")
-    val skipNativeBuild = project.findProperty("skipNativeBuild")?.toString()?.toBoolean() ?: false
-
-    // Add native libs to test resources so NativeLoader can find them
-    sourceSets {
-        test {
-            resources.srcDir(nativeLibsDir)
-        }
-    }
-
-    // Ensure native lib is built before processing test resources
-    tasks.named("processTestResources") {
-        if (!skipNativeBuild) {
-            dependsOn(":core-bridge:copyNativeLib")
-        }
-    }
+    consumeCoreBridgeNative("processTestResources")
 }

@@ -11,6 +11,8 @@ build/
 .idea/libraries/
 .idea/copilot*.xml
 .idea/kotlin-plugins.xml
+.idea/AndroidProjectSystem.xml
+.idea/inspectionProfiles/
 *.iws
 *.iml
 *.ipr
@@ -48,6 +50,10 @@ bin/
 
 ### Rust ###
 **/rust/target/
+
+### Nix ###
+result
+result-*
 
 ### Protobuf Generated ###
 **/generated/

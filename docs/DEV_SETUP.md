@@ -4,27 +4,43 @@
 
 - **Java 25** (GraalVM recommended) - `sdk install java 25.0.1-graal`
 - **Gradle 9.2+** - `sdk install gradle 9.2.1`
-- **Rust (with rustup)** - [rustup.rs](https://rustup.rs)
-- **Protobuf** - `brew install protobuf`
+- **Nix** (with flakes enabled) - [nixos.org/download](https://nixos.org/download)
 
 ```bash
 sdk env install
 ```
+
+The Rust toolchain and protobuf compiler are provided by the flake's
+`devShells.default`; `nix develop` drops you into a shell with both. They are
+not required globally. Rust is still useful locally for ad-hoc `cargo update`
+or `cargo edit` runs against `core-bridge/rust/` — see `core-bridge/README.md`.
+
+> **First-run note:** the flake declares `temporal-kt.cachix.org` as a binary
+> substituter. On the first `nix build` (or first `gradle build` that triggers
+> Nix), Nix will prompt you to accept it — say yes to pull pre-built artifacts
+> from CI instead of compiling sdk-core from source. Trusted users on NixOS
+> have it accepted automatically; non-trusted users who decline will fall back
+> to a from-source build (slow, but correct).
+
 ### Supported Platforms
 
-Temporal-KT currently supports:
+Temporal-KT publishes native libraries for:
 
 * macOS aarch64
-* macOS x86_64
 * Linux x86_64 (glibc)
 * Linux aarch64 (glibc)
 * Windows x86_64
 
-> **Note:** Alpine Linux and other musl libc distributions are not currently supported.
-> For containerized deployments, use a glibc-based image (e.g., `debian`, `ubuntu`) instead of Alpine.
+> **Note:** macOS x86_64 is not supported. Alpine Linux and other musl libc
+> distributions are not currently supported either. For containerized
+> deployments, use a glibc-based image (e.g., `debian`, `ubuntu`) instead of
+> Alpine.
 
-Native libraries are built on each platform's native GitHub Actions runner. Release binaries are built
-and tested on the appropriate platforms (Linux x86_64, Linux aarch64, macOS x86_64, macOS aarch64, Windows x86_64).
+Native libraries are built via the repo's Nix flake. A single Linux host can
+cross-compile all three Linux-reachable classifiers (linux-x86_64-gnu,
+linux-aarch64-gnu, windows-x86_64 via mingw); macOS aarch64 must be built
+natively on an Apple Silicon host. See `core-bridge/README.md` for the full
+matrix.
 
 
 ## Cloning

@@ -11,8 +11,10 @@ import kotlin.test.assertTrue
 /**
  * Tests for the native library loading and FFM communication.
  *
- * Note: These tests require the native library to be built first.
- * Run `./gradlew :core-bridge:cargoBuild` before running tests.
+ * The native library is produced by the Nix flake at repo root and pulled into
+ * test resources by `processTestResources`. `./gradlew :core-bridge:test` will
+ * auto-invoke `nix build` for the host platform; CI passes a pre-built JAR via
+ * `-PcoreBridgeJar.<classifier>=<path>` instead.
  */
 class NativeLoaderTest {
     @Test

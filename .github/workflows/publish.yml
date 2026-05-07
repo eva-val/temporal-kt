@@ -6,7 +6,7 @@ on:
     paths-ignore:
       - '**.md'
       - 'docs/**'
-      - '.github/workflows/ci.yml'
+      - '.github/workflows/buildtest.yml'
   release:
     types: [published]
   workflow_dispatch:
@@ -22,39 +22,22 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
-  # ===== NATIVE BUILD JOBS (matrix) =====
-
+  # Build per-classifier JARs via Nix.
+  # The Linux runner cross-compiles 3 targets (x86_64-gnu, aarch64-gnu, windows-mingw) in a single job.
+  # The macOS runner builds the Darwin target only — the flake doesn't cross-from-Darwin.
   build-native:
-    name: Build Native (${{ matrix.platform }})
-    timeout-minutes: 30
+    name: Build Native (${{ matrix.host }})
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: ubuntu-24.04
-            platform: linux-x86_64-gnu
-            rust-targets: x86_64-unknown-linux-gnu
-            gradle-task: copyNativeLibLinuxx8664
-            artifact-name: native-libs-linux-x86_64-gnu
-            artifact-path: core-bridge/build/native-libs/native/linux-x86_64-gnu
-          - os: ubuntu-24.04-arm
-            platform: linux-aarch64-gnu
-            rust-targets: aarch64-unknown-linux-gnu
-            gradle-task: copyNativeLibLinuxAarch64
-            artifact-name: native-libs-linux-aarch64-gnu
-            artifact-path: core-bridge/build/native-libs/native/linux-aarch64-gnu
+            host: linux
+            classifiers: linux-x86_64-gnu linux-aarch64-gnu windows-x86_64
           - os: macos-14
-            platform: macos-aarch64
-            rust-targets: aarch64-apple-darwin
-            gradle-task: copyMacosAarch64NativeLib
-            artifact-name: native-libs-macos-aarch64
-            artifact-path: core-bridge/build/native-libs/native/macos-aarch64
-          - os: windows-latest
-            platform: windows
-            rust-targets: x86_64-pc-windows-msvc
-            gradle-task: copyWindowsNativeLib
-            artifact-name: native-libs-windows
-            artifact-path: core-bridge/build/native-libs/native/windows-x86_64
+            host: macos
+            classifiers: macos-aarch64
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -62,62 +45,36 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Cache native library
-        id: native-cache
-        uses: actions/cache@v4
+      - uses: cachix/install-nix-action@v31
         with:
-          path: ${{ matrix.artifact-path }}
-          key: native-${{ matrix.platform }}-${{ hashFiles('core-bridge/rust/Cargo.lock', 'core-bridge/rust/Cargo.toml', 'core-bridge/rust/sdk-core/**/*.rs', 'core-bridge/rust/sdk-core/**/Cargo.toml') }}
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up JDK 25
-        if: steps.native-cache.outputs.cache-hit != 'true'
-        uses: actions/setup-java@v4
+      - uses: cachix/cachix-action@v17
         with:
-          java-version: '25'
-          distribution: 'graalvm'
+          name: temporal-kt
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
-      - name: Set up Rust
-        if: steps.native-cache.outputs.cache-hit != 'true'
-        uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          toolchain: stable
-          target: ${{ matrix.rust-targets }}
-          cache-workspaces: "core-bridge/rust -> target"
-          cache-all-crates: true
-          cache-on-failure: true
-          rustflags: ""
+      - name: Build classifier JARs via Nix
+        run: |
+          mkdir -p staging
+          for c in ${{ matrix.classifiers }}; do
+            echo "::group::nix build .#core-bridge-jar-$c"
+            nix build ".#core-bridge-jar-$c" --print-build-logs --out-link "result-$c"
+            cp -L "result-$c/core-bridge-$c.jar" "staging/core-bridge-$c.jar"
+            echo "::endgroup::"
+          done
+          ls -lah staging/
 
-      - name: Install protobuf (Linux)
-        if: steps.native-cache.outputs.cache-hit != 'true' && runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
-
-      - name: Install protobuf (macOS)
-        if: steps.native-cache.outputs.cache-hit != 'true' && runner.os == 'macOS'
-        run: brew install protobuf
-
-      - name: Install protobuf (Windows)
-        if: steps.native-cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
-        uses: arduino/setup-protoc@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Gradle
-        if: steps.native-cache.outputs.cache-hit != 'true'
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Build native library
-        if: steps.native-cache.outputs.cache-hit != 'true'
-        run: ./gradlew :core-bridge:${{ matrix.gradle-task }} --no-daemon
-
-      - name: Upload native lib
+      - name: Upload classifier JARs
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact-name }}
-          path: ${{ matrix.artifact-path }}
+          name: native-jars-${{ matrix.host }}
+          path: staging/core-bridge-*.jar
           retention-days: 1
+          if-no-files-found: error
 
-  # ===== PLATFORM TEST JOBS (matrix, after native builds) =====
-
+  # Run the JVM build/tests on each runtime architecture, consuming the pre-built classifier JAR
+  # via the -PcoreBridgeJar.<classifier>=<path> injection point. No Nix needed at this stage.
   test:
     name: Test (${{ matrix.platform }})
     needs: [build-native]
@@ -128,21 +85,17 @@ jobs:
         include:
           - os: ubuntu-24.04
             platform: linux-x86_64-gnu
-            artifact-name: native-libs-linux-x86_64-gnu
-            artifact-path: core-bridge/build/native-libs/native/linux-x86_64-gnu
+            host: linux
           - os: ubuntu-24.04-arm
             platform: linux-aarch64-gnu
-            artifact-name: native-libs-linux-aarch64-gnu
-            artifact-path: core-bridge/build/native-libs/native/linux-aarch64-gnu
+            host: linux
           - os: macos-14
             platform: macos-aarch64
-            artifact-name: native-libs-macos-aarch64
-            artifact-path: core-bridge/build/native-libs/native/macos-aarch64
+            host: macos
           # These machines are really jank with github, revisit in future when microsoft fixes it maybe.
-          #- os: windows-latest
-          #  platform: windows
-          #  artifact-name: native-libs-windows
-          #  artifact-path: core-bridge/build/native-libs/native/windows-x86_64
+          # - os: windows-latest
+          #   platform: windows-x86_64
+          #   host: linux
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -156,34 +109,24 @@ jobs:
           java-version: '25'
           distribution: 'graalvm'
 
-      - name: Install protobuf (Linux)
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
-
-      - name: Install protobuf (macOS)
-        if: runner.os == 'macOS'
-        run: brew install protobuf
-
-      - name: Install protobuf (Windows)
-        if: runner.os == 'Windows'
-        uses: arduino/setup-protoc@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Download native lib
+      - name: Download host native JARs
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.artifact-name }}
-          path: ${{ matrix.artifact-path }}
+          name: native-jars-${{ matrix.host }}
+          path: native-jars
 
       - name: Build and test
-        run: ./gradlew build -PskipNativeBuild=true -PexcludeTags=githubactionrunnersarebadmicrosoftshouldfixit --no-daemon
+        run: |
+          ./gradlew build \
+            "-PcoreBridgeJar.${{ matrix.platform }}=$PWD/native-jars/core-bridge-${{ matrix.platform }}.jar" \
+            -PexcludeTags=githubactionrunnersarebadmicrosoftshouldfixit \
+            --no-daemon
 
-  # ===== PUBLISH JOB (runs after all builds and tests) =====
-
+  # Pull both host artifacts (4 classifier JARs total), publish to Maven Central, and on release
+  # events upload renamed JARs to the GitHub Release.
   publish:
     name: Publish to Maven Central
     needs: [build-native, test]
@@ -202,53 +145,39 @@ jobs:
           java-version: '25'
           distribution: 'graalvm'
 
-      - name: Install protobuf
-        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # Download all native lib artifacts into the expected directory structure
-      - name: Download Linux x86_64 native lib
+      - name: Download Linux native JARs
         uses: actions/download-artifact@v4
         with:
-          name: native-libs-linux-x86_64-gnu
-          path: core-bridge/build/native-libs/native/linux-x86_64-gnu
+          name: native-jars-linux
+          path: native-jars
 
-      - name: Download Linux aarch64 native lib
+      - name: Download macOS native JARs
         uses: actions/download-artifact@v4
         with:
-          name: native-libs-linux-aarch64-gnu
-          path: core-bridge/build/native-libs/native/linux-aarch64-gnu
+          name: native-jars-macos
+          path: native-jars
 
-      - name: Download macOS ARM64 native lib
-        uses: actions/download-artifact@v4
-        with:
-          name: native-libs-macos-aarch64
-          path: core-bridge/build/native-libs/native/macos-aarch64
-
-      - name: Download Windows native lib
-        uses: actions/download-artifact@v4
-        with:
-          name: native-libs-windows
-          path: core-bridge/build/native-libs/native/windows-x86_64
-
-      - name: Verify native libraries
+      - name: Verify native JARs
         run: |
-          echo "Native libraries downloaded:"
-          find core-bridge/build/native-libs -type f -name "*.so" -o -name "*.dylib" -o -name "*.dll" | sort
-          echo ""
-          echo "Expected structure:"
-          echo "  native/linux-x86_64-gnu/libtemporalio_sdk_core_c_bridge.so"
-          echo "  native/linux-aarch64-gnu/libtemporalio_sdk_core_c_bridge.so"
-          echo "  native/macos-aarch64/libtemporalio_sdk_core_c_bridge.dylib"
-          echo "  native/windows-x86_64/temporalio_sdk_core_c_bridge.dll"
+          echo "Downloaded native JARs:"
+          ls -lah native-jars/
+          for c in linux-x86_64-gnu linux-aarch64-gnu macos-aarch64 windows-x86_64; do
+            jar="native-jars/core-bridge-$c.jar"
+            if [ ! -f "$jar" ]; then
+              echo "ERROR: missing $jar"
+              exit 1
+            fi
+            echo "--- $jar (top entries) ---"
+            jar tf "$jar" | head
+          done
 
       - name: Set version from release tag
         if: github.event_name == 'release'
         run: |
           VERSION="${{ github.event.release.tag_name }}"
-          # Remove 'v' prefix if present
           VERSION="${VERSION#v}"
           echo "Publishing version: $VERSION"
           sed -i "s/version=.*/version=$VERSION/" gradle.properties
@@ -259,55 +188,29 @@ jobs:
           echo "Publishing version: ${{ inputs.version }}"
           sed -i "s/version=.*/version=${{ inputs.version }}/" gradle.properties
 
-      - name: Build classifier JARs
-        run: |
-          ./gradlew :core-bridge:jar \
-            :core-bridge:linuxx8664gnuNativeJar \
-            :core-bridge:linuxaarch64gnuNativeJar \
-            :core-bridge:macosaarch64NativeJar \
-            :core-bridge:windowsx8664NativeJar \
-            -PskipNativeBuild=true --no-daemon
-
-      - name: Verify JAR contents
-        run: |
-          echo "=== Main JAR (should have no natives) ==="
-          MAIN_JAR=$(ls core-bridge/build/libs/core-bridge-*.jar | grep -v '\-linux\|\-macos\|\-windows' | head -1)
-          echo "Checking: $MAIN_JAR"
-          if jar tf "$MAIN_JAR" | grep -q "^native/"; then
-            echo "ERROR: Main JAR contains native libraries!"
-            jar tf "$MAIN_JAR" | grep "^native/"
-            exit 1
-          else
-            echo "OK - No native libraries in main JAR"
-          fi
-          echo ""
-          echo "=== Classifier JARs ==="
-          for f in core-bridge/build/libs/core-bridge-*-linux-*.jar core-bridge/build/libs/core-bridge-*-macos-*.jar core-bridge/build/libs/core-bridge-*-windows-*.jar; do
-            if [ -f "$f" ]; then
-              echo "--- $f ---"
-              jar tf "$f" | head -5
-            fi
-          done
-
       - name: Publish to Maven Central
         run: |
           ./gradlew publishToMavenCentral \
-            -PskipNativeBuild=true \
+            "-PcoreBridgeJar.linux-x86_64-gnu=$PWD/native-jars/core-bridge-linux-x86_64-gnu.jar" \
+            "-PcoreBridgeJar.linux-aarch64-gnu=$PWD/native-jars/core-bridge-linux-aarch64-gnu.jar" \
+            "-PcoreBridgeJar.macos-aarch64=$PWD/native-jars/core-bridge-macos-aarch64.jar" \
+            "-PcoreBridgeJar.windows-x86_64=$PWD/native-jars/core-bridge-windows-x86_64.jar" \
             -PsigningInMemoryKey="${{ secrets.SIGNING_KEY }}" \
             -PsigningInMemoryKeyPassword="${{ secrets.SIGNING_PASSWORD }}" \
             -PmavenCentralUsername="${{ secrets.OSSRH_USERNAME }}" \
             -PmavenCentralPassword="${{ secrets.OSSRH_TOKEN }}" \
             --no-configuration-cache --no-daemon
 
-      - name: Build JARs for release assets
+      - name: Stage classifier JARs for release upload
         if: github.event_name == 'release'
         run: |
-          ./gradlew jar \
-            :core-bridge:linuxx8664gnuNativeJar \
-            :core-bridge:linuxaarch64gnuNativeJar \
-            :core-bridge:macosaarch64NativeJar \
-            :core-bridge:windowsx8664NativeJar \
-            -PskipNativeBuild=true --no-configuration-cache --no-daemon
+          VERSION=$(grep '^version=' gradle.properties | cut -d= -f2)
+          echo "Staging version: $VERSION"
+          mkdir -p release-assets
+          for c in linux-x86_64-gnu linux-aarch64-gnu macos-aarch64 windows-x86_64; do
+            cp "native-jars/core-bridge-$c.jar" "release-assets/core-bridge-$VERSION-$c.jar"
+          done
+          ls -lah release-assets/
 
       - name: Upload artifacts to GitHub Release
         if: github.event_name == 'release'
@@ -321,3 +224,4 @@ jobs:
             gradle-plugin/build/libs/*.jar
             plugins/di/build/libs/*.jar
             plugins/opentelemetry/build/libs/*.jar
+            release-assets/*.jar
