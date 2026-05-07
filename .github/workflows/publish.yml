@@ -94,10 +94,9 @@ jobs:
           - os: macos-14
             platform: macos-aarch64
             host: macos
-          # These machines are really jank with github, revisit in future when microsoft fixes it maybe.
-          # - os: windows-latest
-          #   platform: windows-x86_64
-          #   host: linux
+          - os: windows-latest
+            platform: windows-x86_64
+            host: linux
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -121,6 +120,7 @@ jobs:
           path: native-jars
 
       - name: Build and test
+        shell: bash
         run: |
           ./gradlew build \
             "-PcoreBridgeJar.${{ matrix.platform }}=$PWD/native-jars/core-bridge-${{ matrix.platform }}.jar" \
